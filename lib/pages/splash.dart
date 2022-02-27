@@ -22,7 +22,7 @@ class _SplashState extends State<Splash> {
   _navigateToHome() async {
     await Future.delayed(const Duration(milliseconds: 1500), () {});
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setInt("onboard", 1);
+    // prefs.setInt("onboard", 1);
     inViewed = prefs.getInt("onboard");
     Navigator.pushReplacement(
       context,
