@@ -35,7 +35,7 @@ List<OnboardModel> screens = <OnboardModel>[
   ),
   OnboardModel(
     img: "assets/onboard/onboard2.png",
-    title: "Perluas Wawasan",
+    title: "Perluas\nWawasan",
     titleColor: Colors.white,
     desc: "Increase your knowledge about museums",
     descColor: Colors.white,
