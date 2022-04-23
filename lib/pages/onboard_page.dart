@@ -1,20 +1,16 @@
-import 'dart:ui';
-
-import 'package:digium/pages/home.dart';
-import 'package:digium/pages/onboard/onboard_model.dart';
+import 'package:digium/models/onboard_model.dart';
 import 'package:digium/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-// import 'package:shared_preferences/shared_preferences.dart';
 
-class Onboard extends StatefulWidget {
-  const Onboard({Key? key}) : super(key: key);
+class OnboardPage extends StatefulWidget {
+  const OnboardPage({Key? key}) : super(key: key);
 
   @override
-  _OnboardState createState() => _OnboardState();
+  _OnboardPageState createState() => _OnboardPageState();
 }
 
-class _OnboardState extends State<Onboard> {
+class _OnboardPageState extends State<OnboardPage> {
   int currentIndex = 0;
   late PageController _pageController;
 
@@ -30,9 +26,9 @@ class _OnboardState extends State<Onboard> {
     super.dispose();
   }
 
-  _storeOnboardInfo() async {
+  _storeOnboardPageInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setInt('onboard', 0);
+    await prefs.setInt('OnboardPage', 0);
   }
 
   @override
@@ -140,14 +136,9 @@ class _OnboardState extends State<Onboard> {
                             children: [
                               TextButton(
                                 onPressed: () {
-                                  _storeOnboardInfo();
-                                  Navigator.pushReplacement(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          const MyHomePage(title: "test"),
-                                    ),
-                                  );
+                                  _storeOnboardPageInfo();
+                                  Navigator.pushReplacementNamed(
+                                      context, "/login");
                                 },
                                 child: Text(
                                   "skip",
@@ -159,14 +150,9 @@ class _OnboardState extends State<Onboard> {
                               InkWell(
                                 onTap: () {
                                   if (index == screens.length - 1) {
-                                    _storeOnboardInfo();
-                                    Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            const MyHomePage(title: "test"),
-                                      ),
-                                    );
+                                    _storeOnboardPageInfo();
+                                    Navigator.pushReplacementNamed(
+                                        context, "/login");
                                   }
                                   _pageController.nextPage(
                                     duration: const Duration(milliseconds: 300),
@@ -186,7 +172,9 @@ class _OnboardState extends State<Onboard> {
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
                                       Text(
-                                        "next",
+                                        index == screens.length - 1
+                                            ? "Login"
+                                            : "Next",
                                         style: TextStyle(
                                           fontSize: 16,
                                           color: screens[index].btnTextColor,

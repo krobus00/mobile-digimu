@@ -1,9 +1,9 @@
-import 'package:digium/pages/home.dart';
-import 'package:digium/pages/onboard/onboard.dart';
+import 'package:digium/models/user_model.dart';
+import 'package:digium/providers/auth_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-int? inViewed;
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class Splash extends StatefulWidget {
   const Splash({Key? key}) : super(key: key);
@@ -13,6 +13,7 @@ class Splash extends StatefulWidget {
 }
 
 class _SplashState extends State<Splash> {
+  int? isViewed;
   @override
   void initState() {
     super.initState();
@@ -22,15 +23,23 @@ class _SplashState extends State<Splash> {
   _navigateToHome() async {
     await Future.delayed(const Duration(milliseconds: 2000), () {});
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    // prefs.setInt("onboard", 1);
-    inViewed = prefs.getInt("onboard");
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
-        builder: (context) =>
-            inViewed != 0 ? const Onboard() : const MyHomePage(title: "test"),
-      ),
+    prefs.setInt(
+      "onboard",
+      bool.fromEnvironment(dotenv.env['ALWAYS_SHOW_ONBOARD'] ?? "") ? 0 : 1,
     );
+    AuthProvider authProvider =
+        Provider.of<AuthProvider>(context, listen: false);
+    UserModel? user = authProvider.user;
+    isViewed = prefs.getInt("onboard");
+    if (isViewed != 0) {
+      if (user == null) {
+        Navigator.pushReplacementNamed(context, '/login');
+      } else {
+        Navigator.pushReplacementNamed(context, '/home');
+      }
+    } else {
+      Navigator.pushReplacementNamed(context, '/onboard');
+    }
   }
 
   @override

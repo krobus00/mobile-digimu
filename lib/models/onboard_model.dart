@@ -1,3 +1,4 @@
+import 'package:digium/theme.dart';
 import 'package:flutter/material.dart';
 
 class OnboardModel {
@@ -26,11 +27,11 @@ List<OnboardModel> screens = <OnboardModel>[
   OnboardModel(
     img: "assets/onboard/onboard1.png",
     title: "Mulai Petualanganmu",
-    titleColor: const Color.fromRGBO(68, 68, 68, 1),
+    titleColor: titleColor,
     desc: "Amazing museums to visit all over Indonesia",
-    descColor: const Color.fromRGBO(166, 166, 166, 1),
+    descColor: subtitleColor,
     bgImg: "assets/onboard/background/bgOnboard1.png",
-    btnColor: const Color.fromRGBO(62, 176, 243, 1),
+    btnColor: primaryColor,
     btnTextColor: Colors.white,
   ),
   OnboardModel(
@@ -41,6 +42,6 @@ List<OnboardModel> screens = <OnboardModel>[
     descColor: Colors.white,
     bgImg: "assets/onboard/background/bgOnboard2.png",
     btnColor: Colors.white,
-    btnTextColor: const Color.fromRGBO(62, 176, 243, 1),
+    btnTextColor: primaryColor,
   ),
 ];
