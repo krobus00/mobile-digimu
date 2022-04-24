@@ -13,7 +13,7 @@ class ProfilePage extends StatelessWidget {
 
     return Scaffold(
       body: Center(
-        child: Text("Hi ${user?.name}"),
+        child: Text("Hi ${user?.name.value}"),
       ),
     );
   }

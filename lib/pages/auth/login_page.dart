@@ -1,5 +1,8 @@
+import 'package:digium/models/user_model.dart';
 import 'package:digium/providers/auth_provider.dart';
 import 'package:digium/theme.dart';
+import 'package:digium/utils.dart';
+import 'package:digium/widgets/custom_field.dart';
 import 'package:digium/widgets/loading_button.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -12,26 +15,48 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  TextEditingController emailController = TextEditingController(text: "");
-  TextEditingController passwordController = TextEditingController(text: "");
+  final _emailController = TextEditingController(text: "");
+  final _passwordController = TextEditingController(text: "");
   bool isLoading = false;
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     AuthProvider authProvider = Provider.of<AuthProvider>(context);
+    UserModel? user = authProvider.user;
+
     handleLogin() async {
-      setState(() {
-        isLoading = true;
-      });
-      if (await authProvider.login(
-        emailController.text,
-        passwordController.text,
-      )) {
-        Navigator.pushReplacementNamed(context, "/home");
+      if (authProvider.validate) {
+        setState(() {
+          isLoading = true;
+        });
+        unfocus(context);
+        if (await authProvider.login(
+          _emailController.text,
+          _passwordController.text,
+        )) {
+          Navigator.pushReplacementNamed(context, "/home");
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              backgroundColor: dangerColor,
+              content: const Text(
+                "Email/password salah!",
+                textAlign: TextAlign.center,
+              ),
+            ),
+          );
+        }
+        setState(() {
+          isLoading = false;
+        });
       }
-      setState(() {
-        isLoading = false;
-      });
     }
 
     Widget header() {
@@ -75,97 +100,31 @@ class _LoginPageState extends State<LoginPage> {
 
     Widget emailInput() {
       return Container(
-        margin: const EdgeInsets.only(top: 70),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              "Email address",
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: medium,
-              ),
-            ),
-            const SizedBox(height: 12),
-            Container(
-              height: 50,
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              decoration: BoxDecoration(
-                color: subtitleColor,
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Center(
-                child: Row(
-                  children: [
-                    const Icon(
-                      Icons.email,
-                      color: Colors.white,
-                    ),
-                    const SizedBox(width: 16),
-                    Expanded(
-                      child: TextFormField(
-                        readOnly: isLoading,
-                        controller: emailController,
-                        style: const TextStyle(color: Colors.white),
-                        decoration: const InputDecoration.collapsed(
-                          hintText: "Your email address",
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            )
-          ],
+        margin: const EdgeInsets.only(top: 10),
+        child: CustomField(
+          label: "Email",
+          hintText: "Your email address",
+          isLoading: isLoading,
+          errorText: user?.email.error,
+          controller: _emailController,
+          prefixIcon: Icons.email,
+          onChanged: authProvider.validateEmail,
         ),
       );
     }
 
     Widget passwordInput() {
       return Container(
-        margin: const EdgeInsets.only(top: 20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              "Password",
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: medium,
-              ),
-            ),
-            const SizedBox(height: 12),
-            Container(
-              height: 50,
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              decoration: BoxDecoration(
-                color: subtitleColor,
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Center(
-                child: Row(
-                  children: [
-                    const Icon(
-                      Icons.lock,
-                      color: Colors.white,
-                    ),
-                    const SizedBox(width: 16),
-                    Expanded(
-                      child: TextFormField(
-                        readOnly: isLoading,
-                        controller: passwordController,
-                        style: const TextStyle(color: Colors.white),
-                        decoration: const InputDecoration.collapsed(
-                          hintText: "********",
-                        ),
-                        obscureText: true,
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            )
-          ],
+        margin: const EdgeInsets.only(top: 10),
+        child: CustomField(
+          label: "Password",
+          hintText: "********",
+          isLoading: isLoading,
+          errorText: user?.password.error,
+          controller: _passwordController,
+          prefixIcon: Icons.password,
+          isPassword: true,
+          onChanged: authProvider.validatePassword,
         ),
       );
     }
@@ -234,6 +193,7 @@ class _LoginPageState extends State<LoginPage> {
             ),
             TextButton(
               onPressed: () {
+                user?.clearError();
                 Navigator.pushReplacementNamed(context, '/register');
               },
               child: Text(

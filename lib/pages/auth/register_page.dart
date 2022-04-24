@@ -1,5 +1,8 @@
+import 'package:digium/models/user_model.dart';
 import 'package:digium/providers/auth_provider.dart';
 import 'package:digium/theme.dart';
+import 'package:digium/utils.dart';
+import 'package:digium/widgets/custom_field.dart';
 import 'package:digium/widgets/loading_button.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -12,29 +15,60 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-  TextEditingController nameController = TextEditingController(text: "");
-  TextEditingController emailController = TextEditingController(text: "");
-  TextEditingController passwordController = TextEditingController(text: "");
+  final _nameController = TextEditingController(text: "");
+  final _emailController = TextEditingController(text: "");
+  final _passwordController = TextEditingController(text: "");
   bool isLoading = false;
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     AuthProvider authProvider = Provider.of<AuthProvider>(context);
+    UserModel? user = authProvider.user;
+
     handleRegister() async {
-      setState(() {
-        isLoading = true;
-      });
-      if (await authProvider.register(
-        nameController.text,
-        emailController.text,
-        passwordController.text,
-      )) {
-        // TODO: notif success
-        Navigator.pushReplacementNamed(context, "/home");
+      if (authProvider.validate) {
+        setState(() {
+          isLoading = true;
+        });
+        unfocus(context);
+        if (await authProvider.register(
+          _nameController.text,
+          _emailController.text,
+          _passwordController.text,
+        )) {
+          _nameController.text = "";
+          _emailController.text = "";
+          _passwordController.text = "";
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            backgroundColor: primaryColor,
+            content: const Text(
+              "Registrasi berhasil",
+              textAlign: TextAlign.center,
+            ),
+          ));
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              backgroundColor: dangerColor,
+              content: const Text(
+                "Registrasi gagal!",
+                textAlign: TextAlign.center,
+              ),
+            ),
+          );
+        }
+        setState(() {
+          isLoading = false;
+        });
       }
-      setState(() {
-        isLoading = false;
-      });
     }
 
     Widget header() {
@@ -79,144 +113,45 @@ class _RegisterPageState extends State<RegisterPage> {
     Widget nameInput() {
       return Container(
         margin: const EdgeInsets.only(top: 70),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              "Full name",
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: medium,
-              ),
-            ),
-            const SizedBox(height: 12),
-            Container(
-              height: 50,
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              decoration: BoxDecoration(
-                color: subtitleColor,
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Center(
-                child: Row(
-                  children: [
-                    const Icon(
-                      Icons.person,
-                      color: Colors.white,
-                    ),
-                    const SizedBox(width: 16),
-                    Expanded(
-                      child: TextFormField(
-                        readOnly: isLoading,
-                        controller: nameController,
-                        style: const TextStyle(color: Colors.white),
-                        decoration: const InputDecoration.collapsed(
-                          hintText: "Your name",
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            )
-          ],
+        child: CustomField(
+          label: "Full name",
+          hintText: "Your full name",
+          isLoading: isLoading,
+          errorText: user?.name.error,
+          controller: _nameController,
+          prefixIcon: Icons.person,
+          onChanged: authProvider.validateName,
         ),
       );
     }
 
     Widget emailInput() {
       return Container(
-        margin: const EdgeInsets.only(top: 20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              "Email address",
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: medium,
-              ),
-            ),
-            const SizedBox(height: 12),
-            Container(
-              height: 50,
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              decoration: BoxDecoration(
-                color: subtitleColor,
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Center(
-                child: Row(
-                  children: [
-                    const Icon(
-                      Icons.email,
-                      color: Colors.white,
-                    ),
-                    const SizedBox(width: 16),
-                    Expanded(
-                      child: TextFormField(
-                        readOnly: isLoading,
-                        controller: emailController,
-                        style: const TextStyle(color: Colors.white),
-                        decoration: const InputDecoration.collapsed(
-                          hintText: "Your email address",
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            )
-          ],
+        margin: const EdgeInsets.only(top: 10),
+        child: CustomField(
+          label: "Email",
+          hintText: "Your email address",
+          isLoading: isLoading,
+          errorText: user?.email.error,
+          controller: _emailController,
+          prefixIcon: Icons.email,
+          onChanged: authProvider.validateEmail,
         ),
       );
     }
 
     Widget passwordInput() {
       return Container(
-        margin: const EdgeInsets.only(top: 20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              "Password",
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: medium,
-              ),
-            ),
-            const SizedBox(height: 12),
-            Container(
-              height: 50,
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              decoration: BoxDecoration(
-                color: subtitleColor,
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Center(
-                child: Row(
-                  children: [
-                    const Icon(
-                      Icons.lock,
-                      color: Colors.white,
-                    ),
-                    const SizedBox(width: 16),
-                    Expanded(
-                      child: TextFormField(
-                        readOnly: isLoading,
-                        controller: passwordController,
-                        style: const TextStyle(color: Colors.white),
-                        decoration: const InputDecoration.collapsed(
-                          hintText: "********",
-                        ),
-                        obscureText: true,
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            )
-          ],
+        margin: const EdgeInsets.only(top: 10),
+        child: CustomField(
+          label: "Password",
+          hintText: "********",
+          isLoading: isLoading,
+          errorText: user?.password.error,
+          controller: _passwordController,
+          prefixIcon: Icons.password,
+          isPassword: true,
+          onChanged: authProvider.validatePassword,
         ),
       );
     }
@@ -285,6 +220,7 @@ class _RegisterPageState extends State<RegisterPage> {
             ),
             TextButton(
               onPressed: () {
+                user?.clearError();
                 Navigator.pushReplacementNamed(context, '/login');
               },
               child: Text(
