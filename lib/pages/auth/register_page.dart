@@ -77,7 +77,7 @@ class _RegisterPageState extends State<RegisterPage> {
         width: double.infinity,
         decoration: const BoxDecoration(
           image: DecorationImage(
-            image: AssetImage("assets/splash.png"),
+            image: AssetImage("assets/header/auth_header.png"),
             fit: BoxFit.cover,
           ),
         ),

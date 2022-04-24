@@ -1,5 +1,5 @@
-import 'package:digium/models/user_model.dart';
 import 'package:digium/providers/auth_provider.dart';
+import 'package:digium/providers/museum_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -21,22 +21,30 @@ class _SplashState extends State<Splash> {
   }
 
   _navigateToHome() async {
-    await Future.delayed(const Duration(milliseconds: 2000), () {});
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    AuthProvider authProvider =
+        Provider.of<AuthProvider>(context, listen: false);
+    MuseumProvider museumProvider =
+        Provider.of<MuseumProvider>(context, listen: false);
+    String? token = prefs.getString("jwt");
+    if (token != null && token.isNotEmpty) {
+      bool validToken = await authProvider.getAuthInfo(token);
+      if (validToken) {
+        await museumProvider.getMuseums(null, true, null, null, null);
+        return Navigator.pushReplacementNamed(context, '/home');
+      }
+    }
+    await prefs.remove("jwt");
+    await Future.delayed(const Duration(milliseconds: 2000), () {});
+
     prefs.setInt(
       "onboard",
       bool.fromEnvironment(dotenv.env['ALWAYS_SHOW_ONBOARD'] ?? "") ? 0 : 1,
     );
-    AuthProvider authProvider =
-        Provider.of<AuthProvider>(context, listen: false);
-    UserModel? user = authProvider.user;
+
     isViewed = prefs.getInt("onboard");
     if (isViewed != 0) {
-      if (user == null) {
-        Navigator.pushReplacementNamed(context, '/login');
-      } else {
-        Navigator.pushReplacementNamed(context, '/home');
-      }
+      Navigator.pushReplacementNamed(context, '/login');
     } else {
       Navigator.pushReplacementNamed(context, '/onboard');
     }

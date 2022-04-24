@@ -4,6 +4,7 @@ import 'package:digium/pages/main_page.dart';
 import 'package:digium/pages/onboard_page.dart';
 import 'package:digium/pages/splash.dart';
 import 'package:digium/providers/auth_provider.dart';
+import 'package:digium/providers/museum_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -27,6 +28,9 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(
           create: (context) => AuthProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => MuseumProvider(),
         ),
       ],
       child: MaterialApp(
