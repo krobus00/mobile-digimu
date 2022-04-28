@@ -22,16 +22,20 @@ class AuthService {
       case 200:
         var data = jsonDecode(response.body)['data'];
         UserModel user = UserModel.fromJson(data['user']);
-        user.token = 'Bearer ' + data['token'];
+        user.token.value = 'Bearer ' + data['token'];
         return user;
       case 400:
-        throw Exception("Error validation");
+        var errors = jsonDecode(response.body)['data'];
+        UserModel error = UserModel.validateFromJson(errors);
+        return error;
+      case 401:
+        throw Exception("Email/password salah!");
       default:
         throw Exception("Internal Server Error");
     }
   }
 
-  Future<bool> register({
+  Future<UserModel> register({
     required String name,
     required String email,
     required String password,
@@ -49,9 +53,13 @@ class AuthService {
     );
     switch (response.statusCode) {
       case 200:
-        return true;
+        var data = jsonDecode(response.body)['data'];
+        UserModel user = UserModel.fromJson(data);
+        return user;
       case 400:
-        throw Exception(jsonDecode(response.body)['data']);
+        var errors = jsonDecode(response.body)['data'];
+        UserModel error = UserModel.validateFromJson(errors);
+        return error;
       default:
         throw Exception("Internal Server Error");
     }
