@@ -24,13 +24,13 @@ class _SplashState extends State<Splash> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     AuthProvider authProvider =
         Provider.of<AuthProvider>(context, listen: false);
-    MuseumProvider museumProvider =
-        Provider.of<MuseumProvider>(context, listen: false);
+    // MuseumProvider museumProvider =
+    //     Provider.of<MuseumProvider>(context, listen: false);
     String? token = prefs.getString("jwt");
     if (token != null && token.isNotEmpty) {
       bool validToken = await authProvider.getAuthInfo(token);
       if (validToken) {
-        await museumProvider.getMuseums(null, true, null, null, null);
+        // await museumProvider.getMuseums(null, true, null, null, null);
         return Navigator.pushReplacementNamed(context, '/home');
       }
     }

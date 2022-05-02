@@ -7,26 +7,46 @@ class MuseumService {
   Future<List<MuseumModel>> getMuseums({
     String? search,
     bool? top,
-    int? random,
+    bool? random,
     int? startPrice,
     int? endPrice,
+    int? page = 1,
+    int? paginate = 10,
+    String? orderBy,
   }) async {
     var url = "$baseURL/$musuemListEndpoint";
-    Map<String, String> queryParameters = {
-      'search': search ?? "",
-      'top': top.toString(),
+    Map<String, Object> params = {
+      'page': page ?? 1,
+      'paginate': paginate ?? 10,
     };
+    if (search != null) {
+      params['search'] = search;
+    }
+    if (top != null) {
+      params['top'] = "";
+    }
+    if (random != null) {
+      params['random'] = paginate ?? 10;
+    }
+    if (startPrice != null) {
+      params['start_price'] = startPrice;
+    }
+    if (endPrice != null) {
+      params['endPrice'] = endPrice;
+    }
 
-    print(Uri.parse(url).replace(queryParameters: queryParameters));
+    final queryParameters =
+        params.map((key, value) => MapEntry(key, value.toString()));
+
     var response = await http.get(
       Uri.parse(url).replace(queryParameters: queryParameters),
       headers: baseHeader,
     );
     switch (response.statusCode) {
       case 200:
-        var data = jsonDecode(response.body)['data'];
+        var res = jsonDecode(response.body)['data'];
         List<MuseumModel> museums = [];
-        for (var museum in data) {
+        for (var museum in res['data']) {
           museums.add(MuseumModel.fromJson(museum));
         }
         return museums;

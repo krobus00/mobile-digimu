@@ -5,10 +5,10 @@ import 'package:digium/theme.dart';
 import 'package:digium/utils.dart';
 import 'package:flutter/material.dart';
 
-class MuseumCard extends StatelessWidget {
+class TopMuseumCard extends StatelessWidget {
   final MuseumModel museum;
 
-  const MuseumCard({Key? key, required this.museum}) : super(key: key);
+  const TopMuseumCard({Key? key, required this.museum}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,6 +21,11 @@ class MuseumCard extends StatelessWidget {
         );
       },
       child: Container(
+        width: 215,
+        height: 170,
+        margin: const EdgeInsets.only(
+          right: 10.0,
+        ),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15.0),
           image: DecorationImage(
@@ -44,6 +49,15 @@ class MuseumCard extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    Text(
+                      museum.yearBuilt.year.toString(),
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 12,
+                        overflow: TextOverflow.fade,
+                      ),
+                    ),
+                    const SizedBox(height: 6),
                     Text(
                       museum.name,
                       maxLines: 2,

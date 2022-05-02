@@ -1,16 +1,64 @@
+import 'package:digium/providers/menu_provider.dart';
 import 'package:digium/providers/museum_provider.dart';
 import 'package:digium/theme.dart';
 import 'package:digium/widgets/museum_card.dart';
+import 'package:digium/widgets/search_header.dart';
+import 'package:digium/widgets/search_widget.dart';
+import 'package:digium/widgets/top_museum_card.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  var refreshKey = GlobalKey<RefreshIndicatorState>();
+  bool _isScrollLimitReached = false;
+  late ScrollController _scrollController;
+
+  @override
+  void initState() {
+    super.initState();
+    _handleGetHomePageData();
+    _scrollController = ScrollController();
+    _scrollController.addListener(() {
+      final newState = _scrollController.offset <=
+          (_scrollController.position.minScrollExtent + (5 * kToolbarHeight));
+
+      if (newState != _isScrollLimitReached) {
+        setState(() {
+          _isScrollLimitReached = newState;
+        });
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _scrollController.dispose();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+  }
+
+  _handleGetHomePageData() async {
+    MuseumProvider museumProvider =
+        Provider.of<MuseumProvider>(context, listen: false);
+    await museumProvider.getMuseums(top: true, paginate: 10);
+    await museumProvider.getMuseums(random: true, paginate: 10);
+  }
+
   @override
   Widget build(BuildContext context) {
-    MuseumProvider museumProvider =
-        Provider.of<MuseumProvider>(context, listen: true);
-    museumProvider.getMuseums(null, true, null, null, null);
+    MuseumProvider museumProvider = Provider.of<MuseumProvider>(context);
+    MenuProvider menuProvider = Provider.of<MenuProvider>(context);
 
     Widget popularMuseumTitle() {
       return Container(
@@ -59,7 +107,6 @@ class HomePage extends StatelessWidget {
                 fontWeight: bold,
               ),
             ),
-            // const SizedBox(height: 4),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -71,7 +118,9 @@ class HomePage extends StatelessWidget {
                   ),
                 ),
                 TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    menuProvider.currentIndex = 1;
+                  },
                   child: Text(
                     "see all",
                     style: TextStyle(
@@ -99,21 +148,66 @@ class HomePage extends StatelessWidget {
           scrollDirection: Axis.horizontal,
           child: Row(
             children: museumProvider.topMuseums
-                .map((m) => MuseumCard(
-                      museum: m,
-                    ))
+                .map(
+                  (m) => TopMuseumCard(
+                    museum: m,
+                  ),
+                )
                 .toList(),
           ),
         ),
       );
     }
 
-    return ListView(
-      children: [
-        popularMuseumTitle(),
-        popularMuseum(),
-        museumListTitle(),
-      ],
+    Widget listMuseums() {
+      return SliverPadding(
+        padding: EdgeInsets.all(defaultMargin),
+        sliver: SliverGrid(
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            mainAxisSpacing: 5.0,
+            crossAxisSpacing: 5.0,
+            crossAxisCount: 2,
+            childAspectRatio: 1 / 1,
+          ),
+          delegate: SliverChildListDelegate(
+            museumProvider.museums
+                .map(
+                  (m) => MuseumCard(museum: m),
+                )
+                .toList(),
+          ),
+        ),
+      );
+    }
+
+    return RefreshIndicator(
+      onRefresh: () async {
+        await _handleGetHomePageData();
+      },
+      child: CustomScrollView(
+        controller: _scrollController,
+        slivers: <Widget>[
+          SliverPersistentHeader(
+            pinned: true,
+            floating: false,
+            delegate: SearchHeader(
+              icon: Icons.terrain,
+              title: 'Digium',
+              search: const Search(),
+            ),
+          ),
+          SliverList(
+            delegate: SliverChildListDelegate(
+              [
+                popularMuseumTitle(),
+                popularMuseum(),
+                museumListTitle(),
+              ],
+            ),
+          ),
+          listMuseums(),
+        ],
+      ),
     );
   }
 }

@@ -4,11 +4,11 @@ import 'package:flutter/cupertino.dart';
 
 class MuseumProvider with ChangeNotifier {
   MuseumModel? _museum;
-  List<MuseumModel>? _museums;
+  List<MuseumModel> _museums = [];
   List<MuseumModel> _topMuseums = [];
 
   MuseumModel? get museum => _museum;
-  List<MuseumModel>? get museums => _museums;
+  List<MuseumModel> get museums => _museums;
   List<MuseumModel> get topMuseums => _topMuseums;
 
   set museum(MuseumModel? museum) {
@@ -21,18 +21,20 @@ class MuseumProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  set museums(List<MuseumModel>? museums) {
+  set museums(List<MuseumModel> museums) {
     _museums = museums;
     notifyListeners();
   }
 
-  Future<bool> getMuseums(
+  Future<bool> getMuseums({
     String? search,
     bool? top,
-    int? random,
+    bool? random,
     int? startPrice,
     int? endPrice,
-  ) async {
+    int? page,
+    int? paginate,
+  }) async {
     try {
       List<MuseumModel> museums = await MuseumService().getMuseums(
         search: search,
@@ -40,16 +42,17 @@ class MuseumProvider with ChangeNotifier {
         random: random,
         startPrice: startPrice,
         endPrice: endPrice,
+        page: page,
+        paginate: paginate,
       );
-      print(museums.length);
-      if (top != null) {
+      if (top != null && top) {
         _topMuseums = museums;
       } else {
         _museums = museums;
       }
+      notifyListeners();
       return true;
     } catch (e) {
-      print(e);
       return false;
     }
   }

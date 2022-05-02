@@ -38,9 +38,12 @@ class MuseumModel {
     yearBuilt = DateTime.parse(json['year_built']);
     latitude = json['latitude'];
     longitude = json['longitude'];
+
     // parse array of object
-    // galleries = json['galleries']
-    //     .map((gallery) => GalleryModel.fromJson(gallery))
-    //     .toList();
+    if (json['galleries'] != null) {
+      galleries = json['galleries']
+          .map((gallery) => GalleryModel.fromJson(gallery))
+          .toList();
+    }
   }
 }
