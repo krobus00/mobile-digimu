@@ -1,9 +1,14 @@
-import 'dart:convert';
 import 'package:digium/constants/endpoint.dart';
-import 'package:http/http.dart' as http;
+import 'package:digium/injector/locator.dart';
+import 'package:digium/networks/dio_client.dart';
 import 'package:digium/models/museum_model.dart';
+import 'package:digium/logger.dart';
+
+const _h = "[MUSEUM SERVICE]";
 
 class MuseumService {
+  final _networkLocator = getIt.get<DioClient>();
+
   Future<List<MuseumModel>> getMuseums({
     String? search,
     bool? top,
@@ -14,8 +19,7 @@ class MuseumService {
     int? paginate = 10,
     String? orderBy,
   }) async {
-    var url = "$baseURL/$musuemListEndpoint";
-    Map<String, Object> params = {
+    Map<String, dynamic> params = {
       'page': page ?? 1,
       'paginate': paginate ?? 10,
     };
@@ -35,22 +39,21 @@ class MuseumService {
       params['endPrice'] = endPrice;
     }
 
-    final queryParameters =
-        params.map((key, value) => MapEntry(key, value.toString()));
-
-    var response = await http.get(
-      Uri.parse(url).replace(queryParameters: queryParameters),
-      headers: baseHeader,
+    final response = await _networkLocator.dio.get(
+      musuemListEndpoint,
+      queryParameters: params,
     );
+
     switch (response.statusCode) {
       case 200:
-        var res = jsonDecode(response.body)['data'];
+        var res = response.data['data'];
         List<MuseumModel> museums = [];
         for (var museum in res['data']) {
           museums.add(MuseumModel.fromJson(museum));
         }
         return museums;
       default:
+        logError(_h, response.data);
         throw Exception("Internal Server Error");
     }
   }

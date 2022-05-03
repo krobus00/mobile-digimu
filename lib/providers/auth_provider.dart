@@ -1,11 +1,14 @@
+import 'package:digium/injector/locator.dart';
 import 'package:digium/models/user_model.dart';
 import 'package:digium/models/validation_model.dart';
 import 'package:digium/services/auth_service.dart';
+import 'package:digium/sharedprefs/shared_preference_helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:digium/extensions/string_extensions.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthProvider with ChangeNotifier {
+  final _prefsLocator = getIt.get<SharedPreferenceHelper>();
+
   UserModel? _user;
   UserModel? get user => _user;
 
@@ -35,14 +38,14 @@ class AuthProvider with ChangeNotifier {
   }
 
   Future<bool> login(String email, String password) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
     try {
       UserModel user =
           await AuthService().login(email: email, password: password);
 
       _user = user;
       if (validate) {
-        return await prefs.setString("jwt", user.token.value!);
+        await _prefsLocator.setUserToken(userToken: user.token.value!);
+        return true;
       }
       return false;
     } catch (e) {

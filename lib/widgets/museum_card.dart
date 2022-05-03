@@ -1,6 +1,8 @@
 import 'package:digium/constants/endpoint.dart';
+import 'package:digium/injector/locator.dart';
 import 'package:digium/models/museum_model.dart';
 import 'package:digium/pages/museum/museum_detail_page.dart';
+import 'package:digium/services/navigation_service.dart';
 import 'package:digium/theme.dart';
 import 'package:digium/utils.dart';
 import 'package:flutter/material.dart';
@@ -12,11 +14,11 @@ class MuseumCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final _navLocator = getIt.get<NavigationService>();
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(
-          context,
-          "/museum",
+        _navLocator.navigateTo(
+          routeName: "/museum",
           arguments: MuseumDetailArguments(museum: museum),
         );
       },

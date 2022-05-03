@@ -1,5 +1,7 @@
+import 'package:digium/injector/locator.dart';
 import 'package:digium/models/user_model.dart';
 import 'package:digium/providers/auth_provider.dart';
+import 'package:digium/services/navigation_service.dart';
 import 'package:digium/theme.dart';
 import 'package:digium/utils.dart';
 import 'package:digium/widgets/custom_field.dart';
@@ -17,6 +19,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final _emailController = TextEditingController(text: "");
   final _passwordController = TextEditingController(text: "");
+  final _navLocator = getIt.get<NavigationService>();
   bool isLoading = false;
 
   @override
@@ -41,7 +44,7 @@ class _LoginPageState extends State<LoginPage> {
           _emailController.text,
           _passwordController.text,
         )) {
-          Navigator.pushReplacementNamed(context, "/home");
+          _navLocator.navigateAndReplaceTo(routeName: "/home");
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
@@ -71,7 +74,7 @@ class _LoginPageState extends State<LoginPage> {
         ),
         child: Container(
           alignment: Alignment.bottomLeft,
-          margin: EdgeInsets.all(defaultMargin),
+          margin: EdgeInsets.all(authMargin),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.end,
@@ -194,7 +197,7 @@ class _LoginPageState extends State<LoginPage> {
             TextButton(
               onPressed: () {
                 user?.clearError();
-                Navigator.pushReplacementNamed(context, '/register');
+                _navLocator.navigateAndReplaceTo(routeName: "/register");
               },
               child: Text(
                 "Register",
@@ -216,7 +219,7 @@ class _LoginPageState extends State<LoginPage> {
         children: [
           header(),
           Container(
-            margin: EdgeInsets.symmetric(horizontal: defaultMargin),
+            margin: EdgeInsets.symmetric(horizontal: authMargin),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
