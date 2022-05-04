@@ -3,8 +3,8 @@ import 'package:digium/injector/locator.dart';
 import 'package:digium/models/museum_model.dart';
 import 'package:digium/pages/museum/museum_detail_page.dart';
 import 'package:digium/services/navigation_service.dart';
-import 'package:digium/theme.dart';
-import 'package:digium/utils.dart';
+import 'package:digium/constants/theme.dart';
+import 'package:digium/utils/utils.dart';
 import 'package:flutter/material.dart';
 
 class MuseumCard extends StatelessWidget {

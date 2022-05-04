@@ -1,6 +1,6 @@
 import 'package:digium/models/museum_model.dart';
 import 'package:digium/services/museum_service.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class MuseumProvider with ChangeNotifier {
   MuseumModel? _museum;

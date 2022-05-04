@@ -2,8 +2,8 @@ import 'package:digium/injector/locator.dart';
 import 'package:digium/models/user_model.dart';
 import 'package:digium/models/validation_model.dart';
 import 'package:digium/services/auth_service.dart';
-import 'package:digium/sharedprefs/shared_preference_helper.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:digium/utils/shared_preference_helper.dart';
+import 'package:flutter/material.dart';
 import 'package:digium/extensions/string_extensions.dart';
 
 class AuthProvider with ChangeNotifier {

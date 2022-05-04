@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'package:digium/constants/endpoint.dart';
 import 'package:digium/injector/locator.dart';
-import 'package:digium/logger.dart';
-import 'package:digium/networks/dio_client.dart';
+import 'package:digium/utils/logger.dart';
+import 'package:digium/services/dio_service.dart';
 import 'package:digium/models/user_model.dart';
 
 const _h = "[AUTH SERVICE]";

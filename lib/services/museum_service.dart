@@ -1,8 +1,8 @@
 import 'package:digium/constants/endpoint.dart';
 import 'package:digium/injector/locator.dart';
-import 'package:digium/networks/dio_client.dart';
+import 'package:digium/services/dio_service.dart';
 import 'package:digium/models/museum_model.dart';
-import 'package:digium/logger.dart';
+import 'package:digium/utils/logger.dart';
 
 const _h = "[MUSEUM SERVICE]";
 

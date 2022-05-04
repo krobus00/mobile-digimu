@@ -1,4 +1,4 @@
-import 'package:digium/logger.dart';
+import 'package:digium/utils/logger.dart';
 import 'package:digium/pages/auth/login_page.dart';
 import 'package:digium/pages/auth/register_page.dart';
 import 'package:digium/pages/main_page.dart';

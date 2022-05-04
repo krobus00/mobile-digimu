@@ -1,8 +1,8 @@
 import 'package:digium/constants/endpoint.dart';
-import 'package:digium/logger.dart';
+import 'package:digium/utils/logger.dart';
 import 'package:digium/injector/locator.dart';
 import 'package:digium/services/navigation_service.dart';
-import 'package:digium/sharedprefs/shared_preference_helper.dart';
+import 'package:digium/utils/shared_preference_helper.dart';
 import 'package:dio/dio.dart';
 
 const _h = "[DIO]";

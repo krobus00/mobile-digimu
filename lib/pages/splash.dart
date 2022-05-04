@@ -1,7 +1,7 @@
 import 'package:digium/injector/locator.dart';
 import 'package:digium/providers/auth_provider.dart';
 import 'package:digium/services/navigation_service.dart';
-import 'package:digium/sharedprefs/shared_preference_helper.dart';
+import 'package:digium/utils/shared_preference_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';

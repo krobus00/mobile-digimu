@@ -1,6 +1,6 @@
-import 'package:digium/networks/dio_client.dart';
+import 'package:digium/services/dio_service.dart';
 import 'package:digium/services/navigation_service.dart';
-import 'package:digium/sharedprefs/shared_preference_helper.dart';
+import 'package:digium/utils/shared_preference_helper.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
