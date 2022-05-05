@@ -8,6 +8,7 @@ import 'package:digium/extensions/string_extensions.dart';
 
 class AuthProvider with ChangeNotifier {
   final _prefsLocator = getIt.get<SharedPreferenceHelper>();
+  final _authService = AuthService();
 
   UserModel? _user;
   UserModel? get user => _user;
@@ -23,10 +24,24 @@ class AuthProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  Future<bool> sso() async {
+    try {
+      UserModel user = await _authService.sso();
+      _user = user;
+      if (validate) {
+        await _prefsLocator.setUserToken(userToken: user.token.value!);
+        return true;
+      }
+      return false;
+    } catch (e) {
+      return false;
+    }
+  }
+
   Future<bool> register(String name, String email, String password) async {
     try {
-      UserModel user = await AuthService()
-          .register(name: name, email: email, password: password);
+      UserModel user = await _authService.register(
+          name: name, email: email, password: password);
       _user = user;
       if (validate) {
         return true;
@@ -40,7 +55,7 @@ class AuthProvider with ChangeNotifier {
   Future<bool> login(String email, String password) async {
     try {
       UserModel user =
-          await AuthService().login(email: email, password: password);
+          await _authService.login(email: email, password: password);
 
       _user = user;
       if (validate) {
@@ -55,7 +70,7 @@ class AuthProvider with ChangeNotifier {
 
   Future<bool> getAuthInfo(String token) async {
     try {
-      UserModel user = await AuthService().profile(token: token);
+      UserModel user = await _authService.profile(token: token);
       _user = user;
       return true;
     } catch (e) {

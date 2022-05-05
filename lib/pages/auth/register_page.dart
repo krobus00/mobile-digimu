@@ -74,6 +74,29 @@ class _RegisterPageState extends State<RegisterPage> {
       }
     }
 
+    handleSSO() async {
+      setState(() {
+        isLoading = true;
+      });
+      unfocus(context);
+      if (await authProvider.sso()) {
+        _navLocator.navigateAndReplaceTo(routeName: "/home");
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: dangerColor,
+            content: const Text(
+              "Email/password salah!",
+              textAlign: TextAlign.center,
+            ),
+          ),
+        );
+      }
+      setState(() {
+        isLoading = false;
+      });
+    }
+
     Widget header() {
       return Container(
         height: 139,
@@ -164,25 +187,27 @@ class _RegisterPageState extends State<RegisterPage> {
         height: 50,
         width: double.infinity,
         margin: const EdgeInsets.only(top: 30),
-        child: TextButton(
-          onPressed: () async {
-            await handleRegister();
-          },
-          style: TextButton.styleFrom(
-            backgroundColor: warningColor,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
-            ),
-          ),
-          child: Text(
-            "Register",
-            style: TextStyle(
-              fontWeight: medium,
-              color: Colors.white,
-              fontSize: 16,
-            ),
-          ),
-        ),
+        child: isLoading
+            ? const LoadingButton()
+            : TextButton(
+                onPressed: () async {
+                  await handleRegister();
+                },
+                style: TextButton.styleFrom(
+                  backgroundColor: warningColor,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+                child: Text(
+                  "Register",
+                  style: TextStyle(
+                    fontWeight: medium,
+                    color: Colors.white,
+                    fontSize: 16,
+                  ),
+                ),
+              ),
       );
     }
 
@@ -191,23 +216,27 @@ class _RegisterPageState extends State<RegisterPage> {
         height: 50,
         width: double.infinity,
         margin: const EdgeInsets.only(top: 10),
-        child: TextButton(
-          onPressed: () {},
-          style: TextButton.styleFrom(
-            backgroundColor: primaryColor,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
-            ),
-          ),
-          child: Text(
-            "Google",
-            style: TextStyle(
-              fontWeight: medium,
-              color: Colors.white,
-              fontSize: 16,
-            ),
-          ),
-        ),
+        child: isLoading
+            ? const LoadingButton()
+            : TextButton(
+                onPressed: () async {
+                  await handleSSO();
+                },
+                style: TextButton.styleFrom(
+                  backgroundColor: primaryColor,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+                child: Text(
+                  "Google",
+                  style: TextStyle(
+                    fontWeight: medium,
+                    color: Colors.white,
+                    fontSize: 16,
+                  ),
+                ),
+              ),
       );
     }
 
@@ -253,7 +282,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 nameInput(),
                 emailInput(),
                 passwordInput(),
-                isLoading ? const LoadingButton() : registerButton(),
+                registerButton(),
                 googleButton(),
               ],
             ),

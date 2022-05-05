@@ -1,6 +1,7 @@
 import 'package:digium/injector/locator.dart';
 import 'package:digium/models/onboard_model.dart';
 import 'package:digium/services/navigation_service.dart';
+import 'package:digium/utils/shared_preference_helper.dart';
 import 'package:digium/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -16,6 +17,7 @@ class _OnboardPageState extends State<OnboardPage> {
   int currentIndex = 0;
   late PageController _pageController;
   final _navLocator = getIt.get<NavigationService>();
+  final _prefsLocator = getIt.get<SharedPreferenceHelper>();
 
   @override
   void initState() {
@@ -29,9 +31,8 @@ class _OnboardPageState extends State<OnboardPage> {
     super.dispose();
   }
 
-  _storeOnboardPageInfo() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setInt('OnboardPage', 0);
+  _storeOnboardFlag() async {
+    await _prefsLocator.setOnboardFlag(flag: true);
   }
 
   @override
@@ -139,7 +140,7 @@ class _OnboardPageState extends State<OnboardPage> {
                             children: [
                               TextButton(
                                 onPressed: () {
-                                  _storeOnboardPageInfo();
+                                  _storeOnboardFlag();
                                   _navLocator.navigateAndReplaceTo(
                                     routeName: "/login",
                                   );
@@ -154,7 +155,7 @@ class _OnboardPageState extends State<OnboardPage> {
                               InkWell(
                                 onTap: () {
                                   if (index == screens.length - 1) {
-                                    _storeOnboardPageInfo();
+                                    _storeOnboardFlag();
                                     _navLocator.navigateAndReplaceTo(
                                       routeName: "/login",
                                     );

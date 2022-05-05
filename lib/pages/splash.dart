@@ -5,6 +5,7 @@ import 'package:digium/utils/shared_preference_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:digium/extensions/string_extensions.dart';
 
 class Splash extends StatefulWidget {
   const Splash({Key? key}) : super(key: key);
@@ -23,7 +24,12 @@ class _SplashState extends State<Splash> {
   _navigateToHome() async {
     final _prefsLocator = getIt.get<SharedPreferenceHelper>();
     final _navLocator = getIt.get<NavigationService>();
-
+    if (dotenv.env['ALWAYS_SHOW_ONBOARD'].parseBool()) {
+      await _prefsLocator.removeUserToken();
+      await _prefsLocator.setOnboardFlag(
+        flag: false,
+      );
+    }
     AuthProvider authProvider =
         Provider.of<AuthProvider>(context, listen: false);
     String? token = _prefsLocator.getUserToken();
@@ -35,12 +41,6 @@ class _SplashState extends State<Splash> {
     }
     await _prefsLocator.removeUserToken();
     await Future.delayed(const Duration(milliseconds: 2000), () {});
-
-    await _prefsLocator.setOnboardFlag(
-      flag: (bool.fromEnvironment(dotenv.env['ALWAYS_SHOW_ONBOARD'] ?? "")
-          ? false
-          : true),
-    );
 
     bool isViewed = _prefsLocator.getOnboardFlag();
     if (isViewed) {
