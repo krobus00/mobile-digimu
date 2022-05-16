@@ -1,9 +1,12 @@
 import 'package:digium/pages/auth/login_page.dart';
 import 'package:digium/pages/auth/register_page.dart';
 import 'package:digium/pages/main_page.dart';
+import 'package:digium/pages/museum/museum_detail_page.dart';
 import 'package:digium/pages/onboard_page.dart';
 import 'package:digium/pages/splash.dart';
 import 'package:digium/providers/auth_provider.dart';
+import 'package:digium/providers/menu_provider.dart';
+import 'package:digium/providers/museum_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -26,19 +29,35 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
+          create: (context) => MenuProvider(),
+        ),
+        ChangeNotifierProvider(
           create: (context) => AuthProvider(),
         ),
+        ChangeNotifierProvider(
+          create: (context) => MuseumProvider(),
+        ),
       ],
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Digium',
-        routes: {
-          '/': (context) => const Splash(),
-          '/onboard': (context) => const OnboardPage(),
-          '/login': (context) => const LoginPage(),
-          '/register': (context) => const RegisterPage(),
-          '/home': (context) => const MainPage(),
+      child: GestureDetector(
+        onTap: () {
+          FocusScopeNode currentFocus = FocusScope.of(context);
+
+          if (currentFocus.hasPrimaryFocus) {
+            currentFocus.unfocus();
+          }
         },
+        child: MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'Digium',
+          routes: {
+            '/': (context) => const Splash(),
+            '/onboard': (context) => const OnboardPage(),
+            '/login': (context) => const LoginPage(),
+            '/register': (context) => const RegisterPage(),
+            '/home': (context) => const MainPage(),
+            '/museum': (context) => const MuseumDetailPage(),
+          },
+        ),
       ),
     );
   }

@@ -26,3 +26,10 @@ unfocus(BuildContext context) {
     currentFocus.unfocus();
   }
 }
+
+String getAssetURL(String baseURL, String asset) {
+  if (asset.contains("https")) {
+    return asset;
+  }
+  return baseURL + asset;
+}

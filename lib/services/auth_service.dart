@@ -64,4 +64,28 @@ class AuthService {
         throw Exception("Internal Server Error");
     }
   }
+
+  Future<UserModel> profile({
+    required String token,
+  }) async {
+    var url = "$baseURL/$profileEndpoint";
+
+    var authHeader = baseHeader;
+    authHeader['Authorization'] = token;
+    var response = await http.get(
+      Uri.parse(url),
+      headers: authHeader,
+    );
+    switch (response.statusCode) {
+      case 200:
+        var data = jsonDecode(response.body)['data'];
+        UserModel user = UserModel.fromJson(data);
+        user.token.value = token;
+        return user;
+      case 401:
+        throw Exception("Invalid Token");
+      default:
+        throw Exception("Internal Server Error");
+    }
+  }
 }

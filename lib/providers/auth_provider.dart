@@ -3,6 +3,7 @@ import 'package:digium/models/validation_model.dart';
 import 'package:digium/services/auth_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:digium/extensions/string_extensions.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthProvider with ChangeNotifier {
   UserModel? _user;
@@ -34,14 +35,26 @@ class AuthProvider with ChangeNotifier {
   }
 
   Future<bool> login(String email, String password) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
     try {
       UserModel user =
           await AuthService().login(email: email, password: password);
+
       _user = user;
       if (validate) {
-        return true;
+        return await prefs.setString("jwt", user.token.value!);
       }
       return false;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  Future<bool> getAuthInfo(String token) async {
+    try {
+      UserModel user = await AuthService().profile(token: token);
+      _user = user;
+      return true;
     } catch (e) {
       return false;
     }

@@ -7,6 +7,13 @@ var baseHeader = {
   'Accept': 'application/json',
 };
 
+// ASSET BASE URL
+var assetURL = dotenv.env['ASSET_BASEURL'].toString();
+var assetMuseumURL = assetURL + "/images/museum/";
+
 // ENDPOINT
 const registerEndpoint = "user/register";
 const loginEndpoint = "user/login";
+const profileEndpoint = "user/profile";
+
+const musuemListEndpoint = "museum";

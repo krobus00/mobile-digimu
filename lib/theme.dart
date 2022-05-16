@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-double defaultMargin = 30.0;
+double defaultMargin = 10.0;
 Color primaryColor = const Color(0xFF3EB0F3);
 Color infoColor = const Color(0xFF18C5FA);
 Color disabledColor = const Color(0xFF969696);
@@ -16,6 +16,14 @@ LinearGradient mainGradient = const LinearGradient(
   colors: [
     Color(0xFF18C5FA),
     Color(0xFF57A3EF),
+  ],
+);
+
+LinearGradient cardGradient = LinearGradient(
+  begin: Alignment.bottomCenter,
+  colors: [
+    Colors.black.withOpacity(.4),
+    Colors.black.withOpacity(.1),
   ],
 );
 

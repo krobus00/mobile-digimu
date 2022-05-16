@@ -2,7 +2,9 @@ import 'package:digium/pages/home/explore_page.dart';
 import 'package:digium/pages/home/home_page.dart';
 import 'package:digium/pages/home/profile_page.dart';
 import 'package:digium/pages/home/transaction_page.dart';
+import 'package:digium/providers/menu_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
@@ -12,19 +14,19 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  int _currentIndex = 0;
   @override
   Widget build(BuildContext context) {
+    MenuProvider menuProvider = Provider.of<MenuProvider>(context);
     Widget cartButton() {
       return FloatingActionButton(onPressed: () {});
     }
 
     Widget customBottomNav() {
       return BottomNavigationBar(
-        currentIndex: _currentIndex,
+        currentIndex: menuProvider.currentIndex,
         onTap: (value) {
           setState(() {
-            _currentIndex = value;
+            menuProvider.currentIndex = value;
           });
         },
         selectedItemColor: Colors.blue,
@@ -52,7 +54,7 @@ class _MainPageState extends State<MainPage> {
     }
 
     Widget body() {
-      switch (_currentIndex) {
+      switch (menuProvider.currentIndex) {
         case 0:
           return const HomePage();
         case 1:
