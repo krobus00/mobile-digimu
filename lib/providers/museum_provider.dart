@@ -1,8 +1,9 @@
 import 'package:digium/models/museum_model.dart';
 import 'package:digium/services/museum_service.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class MuseumProvider with ChangeNotifier {
+  final _museumService = MuseumService();
   MuseumModel? _museum;
   List<MuseumModel> _museums = [];
   List<MuseumModel> _topMuseums = [];
@@ -36,7 +37,7 @@ class MuseumProvider with ChangeNotifier {
     int? paginate,
   }) async {
     try {
-      List<MuseumModel> museums = await MuseumService().getMuseums(
+      List<MuseumModel> museums = await _museumService.getMuseums(
         search: search,
         top: top,
         random: random,

@@ -1,4 +1,4 @@
-import 'package:digium/theme.dart';
+import 'package:digium/constants/theme.dart';
 import 'package:flutter/material.dart';
 
 class LoadingButton extends StatelessWidget {
@@ -6,10 +6,9 @@ class LoadingButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: 50,
       width: double.infinity,
-      margin: const EdgeInsets.only(top: 30),
       child: TextButton(
         onPressed: () {},
         style: TextButton.styleFrom(

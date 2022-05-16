@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 double defaultMargin = 10.0;
+double authMargin = 30.0;
 Color primaryColor = const Color(0xFF3EB0F3);
 Color infoColor = const Color(0xFF18C5FA);
 Color disabledColor = const Color(0xFF969696);

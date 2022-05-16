@@ -1,5 +1,5 @@
 import 'package:digium/models/validation_model.dart';
-import 'package:digium/utils.dart';
+import 'package:digium/utils/utils.dart';
 
 class UserModel {
   late int id;

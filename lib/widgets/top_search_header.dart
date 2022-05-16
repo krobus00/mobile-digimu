@@ -1,5 +1,4 @@
-import 'package:digium/theme.dart';
-import 'package:digium/widgets/search_widget.dart';
+import 'package:digium/constants/theme.dart';
 import 'package:flutter/material.dart';
 
 class TopSearchBar extends StatefulWidget {

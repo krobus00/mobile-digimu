@@ -1,3 +1,4 @@
+import 'package:digium/utils/logger.dart';
 import 'package:digium/pages/auth/login_page.dart';
 import 'package:digium/pages/auth/register_page.dart';
 import 'package:digium/pages/main_page.dart';
@@ -7,17 +8,24 @@ import 'package:digium/pages/splash.dart';
 import 'package:digium/providers/auth_provider.dart';
 import 'package:digium/providers/menu_provider.dart';
 import 'package:digium/providers/museum_provider.dart';
+import 'package:digium/injector/locator.dart';
+import 'package:digium/services/navigation_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
+const String _h = '[main]';
 Future main() async {
+  Logger().setLogLevel(LogLevel.debugFinest);
   await dotenv.load(fileName: ".env");
+  logSuccess(_h, ".env loaded");
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(statusBarColor: Colors.transparent),
   );
   WidgetsFlutterBinding.ensureInitialized();
+  // depedency injector
+  await setup();
   runApp(const MyApp());
 }
 
@@ -26,6 +34,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final _navLocator = getIt.get<NavigationService>();
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
@@ -38,26 +47,18 @@ class MyApp extends StatelessWidget {
           create: (context) => MuseumProvider(),
         ),
       ],
-      child: GestureDetector(
-        onTap: () {
-          FocusScopeNode currentFocus = FocusScope.of(context);
-
-          if (currentFocus.hasPrimaryFocus) {
-            currentFocus.unfocus();
-          }
+      child: MaterialApp(
+        navigatorKey: _navLocator.navigatorKey,
+        debugShowCheckedModeBanner: false,
+        title: 'Digium',
+        routes: {
+          '/': (context) => const Splash(),
+          '/onboard': (context) => const OnboardPage(),
+          '/login': (context) => const LoginPage(),
+          '/register': (context) => const RegisterPage(),
+          '/home': (context) => const MainPage(),
+          '/museum': (context) => const MuseumDetailPage(),
         },
-        child: MaterialApp(
-          debugShowCheckedModeBanner: false,
-          title: 'Digium',
-          routes: {
-            '/': (context) => const Splash(),
-            '/onboard': (context) => const OnboardPage(),
-            '/login': (context) => const LoginPage(),
-            '/register': (context) => const RegisterPage(),
-            '/home': (context) => const MainPage(),
-            '/museum': (context) => const MuseumDetailPage(),
-          },
-        ),
       ),
     );
   }

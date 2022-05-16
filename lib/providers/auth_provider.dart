@@ -1,11 +1,15 @@
+import 'package:digium/injector/locator.dart';
 import 'package:digium/models/user_model.dart';
 import 'package:digium/models/validation_model.dart';
 import 'package:digium/services/auth_service.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:digium/utils/shared_preference_helper.dart';
+import 'package:flutter/material.dart';
 import 'package:digium/extensions/string_extensions.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthProvider with ChangeNotifier {
+  final _prefsLocator = getIt.get<SharedPreferenceHelper>();
+  final _authService = AuthService();
+
   UserModel? _user;
   UserModel? get user => _user;
 
@@ -20,10 +24,24 @@ class AuthProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  Future<bool> sso() async {
+    try {
+      UserModel user = await _authService.sso();
+      _user = user;
+      if (validate) {
+        await _prefsLocator.setUserToken(userToken: user.token.value!);
+        return true;
+      }
+      return false;
+    } catch (e) {
+      return false;
+    }
+  }
+
   Future<bool> register(String name, String email, String password) async {
     try {
-      UserModel user = await AuthService()
-          .register(name: name, email: email, password: password);
+      UserModel user = await _authService.register(
+          name: name, email: email, password: password);
       _user = user;
       if (validate) {
         return true;
@@ -35,14 +53,14 @@ class AuthProvider with ChangeNotifier {
   }
 
   Future<bool> login(String email, String password) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
     try {
       UserModel user =
-          await AuthService().login(email: email, password: password);
+          await _authService.login(email: email, password: password);
 
       _user = user;
       if (validate) {
-        return await prefs.setString("jwt", user.token.value!);
+        await _prefsLocator.setUserToken(userToken: user.token.value!);
+        return true;
       }
       return false;
     } catch (e) {
@@ -52,7 +70,7 @@ class AuthProvider with ChangeNotifier {
 
   Future<bool> getAuthInfo(String token) async {
     try {
-      UserModel user = await AuthService().profile(token: token);
+      UserModel user = await _authService.profile(token: token);
       _user = user;
       return true;
     } catch (e) {

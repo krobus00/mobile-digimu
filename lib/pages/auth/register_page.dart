@@ -1,7 +1,9 @@
+import 'package:digium/injector/locator.dart';
 import 'package:digium/models/user_model.dart';
 import 'package:digium/providers/auth_provider.dart';
-import 'package:digium/theme.dart';
-import 'package:digium/utils.dart';
+import 'package:digium/services/navigation_service.dart';
+import 'package:digium/constants/theme.dart';
+import 'package:digium/utils/utils.dart';
 import 'package:digium/widgets/custom_field.dart';
 import 'package:digium/widgets/loading_button.dart';
 import 'package:flutter/material.dart';
@@ -32,6 +34,7 @@ class _RegisterPageState extends State<RegisterPage> {
   Widget build(BuildContext context) {
     AuthProvider authProvider = Provider.of<AuthProvider>(context);
     UserModel? user = authProvider.user;
+    final _navLocator = getIt.get<NavigationService>();
 
     handleRegister() async {
       if (authProvider.validate) {
@@ -71,6 +74,29 @@ class _RegisterPageState extends State<RegisterPage> {
       }
     }
 
+    handleSSO() async {
+      setState(() {
+        isLoading = true;
+      });
+      unfocus(context);
+      if (await authProvider.sso()) {
+        _navLocator.navigateAndReplaceTo(routeName: "/home");
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: dangerColor,
+            content: const Text(
+              "Email/password salah!",
+              textAlign: TextAlign.center,
+            ),
+          ),
+        );
+      }
+      setState(() {
+        isLoading = false;
+      });
+    }
+
     Widget header() {
       return Container(
         height: 139,
@@ -83,7 +109,7 @@ class _RegisterPageState extends State<RegisterPage> {
         ),
         child: Container(
           alignment: Alignment.bottomLeft,
-          margin: EdgeInsets.all(defaultMargin),
+          margin: EdgeInsets.all(authMargin),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.end,
@@ -161,25 +187,27 @@ class _RegisterPageState extends State<RegisterPage> {
         height: 50,
         width: double.infinity,
         margin: const EdgeInsets.only(top: 30),
-        child: TextButton(
-          onPressed: () async {
-            await handleRegister();
-          },
-          style: TextButton.styleFrom(
-            backgroundColor: warningColor,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
-            ),
-          ),
-          child: Text(
-            "Register",
-            style: TextStyle(
-              fontWeight: medium,
-              color: Colors.white,
-              fontSize: 16,
-            ),
-          ),
-        ),
+        child: isLoading
+            ? const LoadingButton()
+            : TextButton(
+                onPressed: () async {
+                  await handleRegister();
+                },
+                style: TextButton.styleFrom(
+                  backgroundColor: warningColor,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+                child: Text(
+                  "Register",
+                  style: TextStyle(
+                    fontWeight: medium,
+                    color: Colors.white,
+                    fontSize: 16,
+                  ),
+                ),
+              ),
       );
     }
 
@@ -188,23 +216,27 @@ class _RegisterPageState extends State<RegisterPage> {
         height: 50,
         width: double.infinity,
         margin: const EdgeInsets.only(top: 10),
-        child: TextButton(
-          onPressed: () {},
-          style: TextButton.styleFrom(
-            backgroundColor: primaryColor,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
-            ),
-          ),
-          child: Text(
-            "Google",
-            style: TextStyle(
-              fontWeight: medium,
-              color: Colors.white,
-              fontSize: 16,
-            ),
-          ),
-        ),
+        child: isLoading
+            ? const LoadingButton()
+            : TextButton(
+                onPressed: () async {
+                  await handleSSO();
+                },
+                style: TextButton.styleFrom(
+                  backgroundColor: primaryColor,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+                child: Text(
+                  "Google",
+                  style: TextStyle(
+                    fontWeight: medium,
+                    color: Colors.white,
+                    fontSize: 16,
+                  ),
+                ),
+              ),
       );
     }
 
@@ -221,7 +253,7 @@ class _RegisterPageState extends State<RegisterPage> {
             TextButton(
               onPressed: () {
                 user?.clearError();
-                Navigator.pushReplacementNamed(context, '/login');
+                _navLocator.navigateAndReplaceTo(routeName: "/login");
               },
               child: Text(
                 "Login",
@@ -243,14 +275,14 @@ class _RegisterPageState extends State<RegisterPage> {
         children: [
           header(),
           Container(
-            margin: EdgeInsets.symmetric(horizontal: defaultMargin),
+            margin: EdgeInsets.symmetric(horizontal: authMargin),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 nameInput(),
                 emailInput(),
                 passwordInput(),
-                isLoading ? const LoadingButton() : registerButton(),
+                registerButton(),
                 googleButton(),
               ],
             ),

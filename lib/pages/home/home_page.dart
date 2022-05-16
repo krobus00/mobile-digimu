@@ -1,6 +1,6 @@
 import 'package:digium/providers/menu_provider.dart';
 import 'package:digium/providers/museum_provider.dart';
-import 'package:digium/theme.dart';
+import 'package:digium/constants/theme.dart';
 import 'package:digium/widgets/museum_card.dart';
 import 'package:digium/widgets/search_header.dart';
 import 'package:digium/widgets/search_widget.dart';
