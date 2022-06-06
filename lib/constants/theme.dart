@@ -33,3 +33,17 @@ FontWeight regular = FontWeight.w400;
 FontWeight medium = FontWeight.w500;
 FontWeight semiBold = FontWeight.w600;
 FontWeight bold = FontWeight.w700;
+
+Map<String, Color> transactionStatusColor = {
+  "Paid": const Color.fromRGBO(122, 233, 139, 1),
+  "Waiting Payment": const Color.fromRGBO(255, 168, 0, 1),
+  "Cancelled": const Color.fromRGBO(255, 61, 0, 1),
+  "Waiting Verification": const Color.fromRGBO(255, 168, 0, 1),
+};
+
+Map<String, String> transactionStatus = {
+  "Paid": "Paid",
+  "Waiting Payment": "Waiting",
+  "Cancelled": "Cancelled",
+  "Waiting Verification": "Waiting",
+};
