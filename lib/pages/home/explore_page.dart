@@ -15,7 +15,7 @@ class ExplorePage extends StatefulWidget {
 
 class _ExplorePageState extends State<ExplorePage> {
   late ScrollController _controller;
-  final int _pageSize = 10;
+  final int _paginate = 10;
   int _page = 1;
   bool _isLoading = false;
 
@@ -27,10 +27,10 @@ class _ExplorePageState extends State<ExplorePage> {
       setState(() {
         _isLoading = true;
       });
-      bool hasNext = await _museumProvider.getMuseum(
+      bool hasNext = await _museumProvider.getMuseums(
         firstFetch: false,
         page: _page,
-        pageSize: _pageSize,
+        paginate: _paginate,
       );
       if (!hasNext) {
         _page -= 1;
@@ -55,16 +55,16 @@ class _ExplorePageState extends State<ExplorePage> {
   }
 
   _handleLoadData() async {
-    MuseumProvider _MuseumProvider =
+    MuseumProvider _museumProvider =
         Provider.of<MuseumProvider>(context, listen: false);
-    await _MuseumProvider.getMuseum(
-        firstFetch: true, page: _page, pageSize: _pageSize);
+    await _museumProvider.getMuseums(
+        firstFetch: true, page: _page, paginate: _paginate);
   }
 
   @override
   // ignore: dead_code
   Widget build(BuildContext context) {
-    MuseumProvider museumProvider = Provider.of<MuseumProvider>(context);
+    MuseumProvider _museumProvider = Provider.of<MuseumProvider>(context);
 
     Widget listMuseums() {
       return SliverPadding(
@@ -77,7 +77,7 @@ class _ExplorePageState extends State<ExplorePage> {
             childAspectRatio: 1 / 1,
           ),
           delegate: SliverChildListDelegate(
-            museumProvider.museums
+            _museumProvider.museums
                 .map(
                   (m) => MuseumCard(museum: m),
                 )
@@ -94,7 +94,7 @@ class _ExplorePageState extends State<ExplorePage> {
       child: CustomScrollView(
         controller: _controller,
         scrollDirection: Axis.vertical,
-        semanticChildCount: museumProvider.museums.length,
+        semanticChildCount: _museumProvider.museums.length,
         slivers: <Widget>[
           SliverPersistentHeader(
             pinned: true,

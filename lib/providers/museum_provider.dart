@@ -38,9 +38,16 @@ class MuseumProvider with ChangeNotifier {
     int? endPrice,
     int? page,
     int? paginate,
+    required bool firstFetch,
   }) async {
     try {
-      List<MuseumModel> museums = await _museumService.getMuseums(
+      if (firstFetch) {
+        _paginationHasNext = true;
+      }
+      if (!_paginationHasNext && !firstFetch) {
+        return false;
+      }
+      MuseumPaginationModel pagination = await _museumService.getMuseums(
         search: search,
         top: top,
         random: random,
@@ -49,40 +56,18 @@ class MuseumProvider with ChangeNotifier {
         page: page,
         paginate: paginate,
       );
+
       if (top != null && top) {
-        _topMuseums = museums;
-      } else {
-        _museums = museums;
+        _topMuseums = pagination.data;
+        notifyListeners();
+        return true;
       }
-
-      notifyListeners();
-      return true;
-    } catch (e) {
-      return false;
-    }
-  }
-
-  Future<bool> getMuseum({
-    String? search,
-    required int pageSize,
-    required int page,
-    required bool firstFetch,
-  }) async {
-    try {
-      if (!_paginationHasNext && !firstFetch) {
-        return false;
-      }
-      MuseumPaginationModel pagination = await _museumService.getMuseum(
-        search: search,
-        page: page,
-        pageSize: pageSize,
-      );
       if (firstFetch) {
-        _museums = pagination.items;
+        _museums = pagination.data;
       } else {
-        _museums.addAll(pagination.items);
+        _museums.addAll(pagination.data);
       }
-      _paginationHasNext = pagination.count >= pageSize * (page + 1);
+      _paginationHasNext = pagination.paging.lastPage >= (page ?? 1);
 
       notifyListeners();
       return true;

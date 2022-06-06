@@ -1,30 +1,22 @@
 import 'package:digium/models/museum_model.dart';
+import 'package:digium/models/pagination_model.dart';
 
 class MuseumPaginationModel {
   MuseumPaginationModel({
-    required this.currentPage,
-    required this.itemsPerPage,
-    required this.count,
-    required this.totalPage,
-    required this.items,
+    required this.data,
+    required this.paging,
   });
 
-  int currentPage;
-  int itemsPerPage;
-  int count;
-  int totalPage;
-  List<MuseumModel> items;
+  List<MuseumModel> data;
+  PaginationModel paging;
 
   factory MuseumPaginationModel.fromJson(Map<String, dynamic> json) =>
       MuseumPaginationModel(
-        currentPage: json["currentPage"],
-        itemsPerPage: json["itemsPerPage"],
-        count: json["count"],
-        totalPage: json["totalPage"],
-        items: List<MuseumModel>.from(
-          json["items"].map(
+        data: List<MuseumModel>.from(
+          json["data"].map(
             (x) => MuseumModel.fromJson(x),
           ),
         ),
+        paging: PaginationModel.fromJson(json["paging"]),
       );
 }

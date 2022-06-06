@@ -1,7 +1,6 @@
 import 'package:digium/constants/endpoint.dart';
 import 'package:digium/injector/locator.dart';
 import 'package:digium/services/dio_service.dart';
-import 'package:digium/models/museum_model.dart';
 import 'package:digium/utils/logger.dart';
 import 'package:dio/dio.dart';
 import 'package:digium/models/museum_pagination_model.dart';
@@ -11,7 +10,7 @@ const _h = "[MUSEUM SERVICE]";
 class MuseumService {
   final _networkLocator = getIt.get<DioClient>();
 
-  Future<List<MuseumModel>> getMuseums({
+  Future<MuseumPaginationModel> getMuseums({
     String? search,
     bool? top,
     bool? random,
@@ -47,10 +46,8 @@ class MuseumService {
         queryParameters: params,
       );
       var res = response.data['data'];
-      List<MuseumModel> museums = [];
-      for (var museum in res['data']) {
-        museums.add(MuseumModel.fromJson(museum));
-      }
+      MuseumPaginationModel museums = MuseumPaginationModel.fromJson(res);
+
       return museums;
     } catch (e) {
       if (e.runtimeType == DioError) {
