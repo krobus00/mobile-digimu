@@ -21,6 +21,9 @@ class TransactionProvider with ChangeNotifier {
     int? paginate,
   }) async {
     try {
+      if (firstFetch) {
+        _paginationHasNext = true;
+      }
       if (!_paginationHasNext && !firstFetch) {
         return false;
       }
