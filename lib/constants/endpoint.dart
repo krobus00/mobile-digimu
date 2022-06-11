@@ -17,3 +17,5 @@ const loginEndpoint = "user/login";
 const profileEndpoint = "user/profile";
 
 const musuemListEndpoint = "museum";
+
+const transactionListEndpoint = "transaction";

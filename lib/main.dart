@@ -1,3 +1,7 @@
+import 'package:digium/pages/transaction/item_page.dart';
+import 'package:digium/pages/transaction/payment_page.dart';
+import 'package:digium/pages/transaction/ticket_page.dart';
+import 'package:digium/providers/transaction_provider.dart';
 import 'package:digium/utils/logger.dart';
 import 'package:digium/pages/auth/login_page.dart';
 import 'package:digium/pages/auth/register_page.dart';
@@ -46,6 +50,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (context) => MuseumProvider(),
         ),
+        ChangeNotifierProvider(
+          create: (context) => TransactionProvider(),
+        ),
       ],
       child: MaterialApp(
         navigatorKey: _navLocator.navigatorKey,
@@ -58,6 +65,9 @@ class MyApp extends StatelessWidget {
           '/register': (context) => const RegisterPage(),
           '/home': (context) => const MainPage(),
           '/museum': (context) => const MuseumDetailPage(),
+          '/transaction/tickets': (context) => const TransactionTicketPage(),
+          '/transaction/payment': (context) => const TransactionPaymentPage(),
+          '/transaction/items': (context) => const TransactionItemPage(),
         },
       ),
     );

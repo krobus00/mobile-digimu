@@ -4,7 +4,6 @@ import 'package:digium/services/navigation_service.dart';
 import 'package:digium/utils/shared_preference_helper.dart';
 import 'package:digium/utils/utils.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class OnboardPage extends StatefulWidget {
   const OnboardPage({Key? key}) : super(key: key);
