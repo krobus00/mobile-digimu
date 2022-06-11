@@ -1,6 +1,7 @@
 import 'package:digium/models/museum_model.dart';
 import 'package:digium/services/museum_service.dart';
 import 'package:flutter/material.dart';
+import 'package:digium/models/museum_pagination_model.dart';
 
 class MuseumProvider with ChangeNotifier {
   final _museumService = MuseumService();
@@ -11,6 +12,8 @@ class MuseumProvider with ChangeNotifier {
   MuseumModel? get museum => _museum;
   List<MuseumModel> get museums => _museums;
   List<MuseumModel> get topMuseums => _topMuseums;
+
+  bool _paginationHasNext = true;
 
   set museum(MuseumModel? museum) {
     _museum = museum;
@@ -35,9 +38,16 @@ class MuseumProvider with ChangeNotifier {
     int? endPrice,
     int? page,
     int? paginate,
+    required bool firstFetch,
   }) async {
     try {
-      List<MuseumModel> museums = await _museumService.getMuseums(
+      if (firstFetch) {
+        _paginationHasNext = true;
+      }
+      if (!_paginationHasNext && !firstFetch) {
+        return false;
+      }
+      MuseumPaginationModel pagination = await _museumService.getMuseums(
         search: search,
         top: top,
         random: random,
@@ -46,11 +56,19 @@ class MuseumProvider with ChangeNotifier {
         page: page,
         paginate: paginate,
       );
+
       if (top != null && top) {
-        _topMuseums = museums;
-      } else {
-        _museums = museums;
+        _topMuseums = pagination.data;
+        notifyListeners();
+        return true;
       }
+      if (firstFetch) {
+        _museums = pagination.data;
+      } else {
+        _museums.addAll(pagination.data);
+      }
+      _paginationHasNext = pagination.paging.lastPage >= (page ?? 1);
+
       notifyListeners();
       return true;
     } catch (e) {

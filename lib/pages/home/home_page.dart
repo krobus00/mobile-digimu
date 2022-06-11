@@ -51,8 +51,9 @@ class _HomePageState extends State<HomePage> {
   _handleGetHomePageData() async {
     MuseumProvider museumProvider =
         Provider.of<MuseumProvider>(context, listen: false);
-    await museumProvider.getMuseums(top: true, paginate: 10);
-    await museumProvider.getMuseums(random: true, paginate: 10);
+    await museumProvider.getMuseums(top: true, paginate: 10, firstFetch: true);
+    await museumProvider.getMuseums(
+        random: true, paginate: 10, firstFetch: true);
   }
 
   @override

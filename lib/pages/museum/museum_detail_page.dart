@@ -11,7 +11,7 @@ class MuseumDetailPage extends StatelessWidget {
     final museum = arguments.museum;
 
     return Scaffold(
-      body: Center(child: Text(museum.name)),
+      body: Center(child: Text(museum.name + "\n" + museum.description)),
     );
   }
 }
