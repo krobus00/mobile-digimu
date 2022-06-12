@@ -1,9 +1,11 @@
-import 'package:digium/pages/home.dart';
-import 'package:digium/pages/onboard/onboard.dart';
+import 'package:digium/injector/locator.dart';
+import 'package:digium/providers/auth_provider.dart';
+import 'package:digium/services/navigation_service.dart';
+import 'package:digium/utils/shared_preference_helper.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
-int? inViewed;
+import 'package:provider/provider.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:digium/extensions/string_extensions.dart';
 
 class Splash extends StatefulWidget {
   const Splash({Key? key}) : super(key: key);
@@ -20,17 +22,32 @@ class _SplashState extends State<Splash> {
   }
 
   _navigateToHome() async {
+    final _prefsLocator = getIt.get<SharedPreferenceHelper>();
+    final _navLocator = getIt.get<NavigationService>();
+    if (dotenv.env['ALWAYS_SHOW_ONBOARD'].parseBool()) {
+      await _prefsLocator.removeUserToken();
+      await _prefsLocator.setOnboardFlag(
+        flag: false,
+      );
+    }
+    AuthProvider authProvider =
+        Provider.of<AuthProvider>(context, listen: false);
+    String? token = _prefsLocator.getUserToken();
+    if (token != null && token.isNotEmpty) {
+      bool validToken = await authProvider.getAuthInfo(token);
+      if (validToken) {
+        return _navLocator.navigateAndReplaceTo(routeName: '/home');
+      }
+    }
+    await _prefsLocator.removeUserToken();
     await Future.delayed(const Duration(milliseconds: 2000), () {});
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    // prefs.setInt("onboard", 1);
-    inViewed = prefs.getInt("onboard");
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
-        builder: (context) =>
-            inViewed != 0 ? const Onboard() : const MyHomePage(title: "test"),
-      ),
-    );
+
+    bool isViewed = _prefsLocator.getOnboardFlag();
+    if (isViewed) {
+      return _navLocator.replaceTo(routeName: '/login');
+    } else {
+      return _navLocator.replaceTo(routeName: '/onboard');
+    }
   }
 
   @override
