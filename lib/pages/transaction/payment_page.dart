@@ -299,24 +299,3 @@ Widget bankDetailsWidget(
     ],
   );
 }
-
-@override
-Widget imagePicker(BuildContext context) {
-  return Scaffold(
-    appBar: AppBar(
-      title: const Text("Image Picker Example"),
-    ),
-    body: Center(
-      child: Column(
-        children: [
-          MaterialButton(
-              color: Colors.blue,
-              child: const Text("Pick Image from Gallery",
-                  style: TextStyle(
-                      color: Colors.white70, fontWeight: FontWeight.bold)),
-              onPressed: () {}),
-        ],
-      ),
-    ),
-  );
-}
