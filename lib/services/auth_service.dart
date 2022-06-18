@@ -28,8 +28,8 @@ class AuthService {
       var data = response.data['data'];
 
       UserModel user = UserModel.fromJson(data['user']);
-      user.clearError;
       user.token.value = 'Bearer ' + data['token'];
+      user.clearError();
       return user;
     } catch (e) {
       if (e.runtimeType == DioError) {
@@ -62,6 +62,7 @@ class AuthService {
       logDebug(_h, "masuk?");
       UserModel user = UserModel.fromJson(data['user']);
       user.token.value = 'Bearer ' + data['token'];
+      user.clearError();
 
       return user;
     } catch (e) {
@@ -105,6 +106,7 @@ class AuthService {
 
       var data = response.data['data'];
       UserModel user = UserModel.fromJson(data);
+      user.clearError();
       return user;
     } catch (e) {
       if (e.runtimeType == DioError) {
