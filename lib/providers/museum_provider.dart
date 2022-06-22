@@ -8,7 +8,9 @@ class MuseumProvider with ChangeNotifier {
   MuseumModel? _museum;
   List<MuseumModel> _museums = [];
   List<MuseumModel> _topMuseums = [];
+  String _search = "";
 
+  String get search => _search;
   MuseumModel? get museum => _museum;
   List<MuseumModel> get museums => _museums;
   List<MuseumModel> get topMuseums => _topMuseums;
@@ -27,6 +29,11 @@ class MuseumProvider with ChangeNotifier {
 
   set museums(List<MuseumModel> museums) {
     _museums = museums;
+    notifyListeners();
+  }
+
+  set search(String keyword) {
+    _search = keyword;
     notifyListeners();
   }
 
