@@ -2,6 +2,7 @@ import 'package:digium/models/museum_model.dart';
 import 'package:digium/providers/transaction_provider.dart';
 import 'package:digium/widgets/custom_field.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class CreateTransactionTab extends StatefulWidget {
@@ -18,6 +19,7 @@ class _CreateTransactionTabState extends State<CreateTransactionTab> {
   final List<TextEditingController> _ticketsNameController = [
     TextEditingController(text: ""),
   ];
+  final formatCurrency = NumberFormat.simpleCurrency(locale: 'id_ID');
 
   @override
   void dispose() {
@@ -113,27 +115,39 @@ class _CreateTransactionTabState extends State<CreateTransactionTab> {
           const SizedBox(height: 10),
           Container(
             margin: const EdgeInsets.symmetric(horizontal: 15),
-            child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                primary: Colors.blue,
-                minimumSize: const Size.fromHeight(50), // NEW
-              ),
-              onPressed: () async {
-                List<String> names = [];
-                for (var item in _ticketsNameController) {
-                  names.add(item.text);
-                }
+            child: Column(
+              children: [
+                const SizedBox(height: 10),
+                Text(
+                  "Total ${formatCurrency.format(widget.museum.price * _ticketsNameController.length)}",
+                  style: const TextStyle(
+                      fontSize: 24, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 10),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.blue,
+                    minimumSize: const Size.fromHeight(50), // NEW
+                  ),
+                  onPressed: () async {
+                    List<String> names = [];
+                    for (var item in _ticketsNameController) {
+                      names.add(item.text);
+                    }
 
-                bool isSuccess = await _transactionProvider.createTransaction(
-                    museumId: widget.museum.id, names: names);
-                if (isSuccess) {
-                  Navigator.pop(context);
-                }
-              },
-              child: const Text(
-                'Order',
-                style: TextStyle(fontSize: 18),
-              ),
+                    bool isSuccess =
+                        await _transactionProvider.createTransaction(
+                            museumId: widget.museum.id, names: names);
+                    if (isSuccess) {
+                      Navigator.pop(context);
+                    }
+                  },
+                  child: const Text(
+                    'Order',
+                    style: TextStyle(fontSize: 18),
+                  ),
+                ),
+              ],
             ),
           ),
         ],
