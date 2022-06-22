@@ -1,5 +1,6 @@
 import 'package:digium/constants/endpoint.dart';
 import 'package:digium/injector/locator.dart';
+import 'package:digium/models/museum_model.dart';
 import 'package:digium/services/dio_service.dart';
 import 'package:digium/utils/logger.dart';
 import 'package:dio/dio.dart';
@@ -62,25 +63,16 @@ class MuseumService {
     }
   }
 
-  Future<MuseumPaginationModel> getMuseum({
-    String? search,
-    required int pageSize,
-    required int page,
+  Future<MuseumModel> getMuseum({
+    required int museumId,
   }) async {
     try {
-      Map<String, dynamic> params = {
-        'pageSize': pageSize,
-        'page': page,
-      };
-
       final response = await _networkLocator.dio.get(
-        musuemListEndpoint,
-        queryParameters: params,
+        "$musuemListEndpoint/$museumId",
       );
 
-      MuseumPaginationModel pagination =
-          MuseumPaginationModel.fromJson(response.data);
-      return pagination;
+      MuseumModel museum = MuseumModel.fromJson(response.data['data']);
+      return museum;
     } catch (e) {
       if (e.runtimeType == DioError) {
         var dioException = e as DioError;

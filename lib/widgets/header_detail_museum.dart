@@ -6,10 +6,7 @@ import 'package:digium/utils/utils.dart';
 class DetailMuseumHeader extends StatelessWidget {
   final MuseumModel museum;
 
-  // ignore: use_key_in_widget_constructors
-  const DetailMuseumHeader({
-    required this.museum,
-  });
+  const DetailMuseumHeader({Key? key, required this.museum}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +36,7 @@ class DetailMuseumHeader extends StatelessWidget {
                         Icons.arrow_back_outlined,
                         color: Colors.white,
                       )),
-                  Spacer(),
+                  const Spacer(),
                   IconButton(
                       onPressed: () => Navigator.pop(context),
                       icon: const Icon(

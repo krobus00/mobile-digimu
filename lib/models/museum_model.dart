@@ -43,8 +43,8 @@ class MuseumModel {
     price = json['price'];
 
     // parse array of object
-    if (json['galleries'] != null) {
-      galleries = json['galleries']
+    if (json['gallery'] != null) {
+      galleries = (json['gallery'] as List)
           .map((gallery) => GalleryModel.fromJson(gallery))
           .toList();
     }
