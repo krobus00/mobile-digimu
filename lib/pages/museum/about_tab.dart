@@ -15,8 +15,9 @@ class AboutTab extends StatelessWidget {
   final formatCurrency = NumberFormat.simpleCurrency(locale: 'id_ID');
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 15),
+      child: ListView(
         children: [
           const Text(
             "About",
@@ -62,27 +63,18 @@ class AboutTab extends StatelessWidget {
               Flexible(child: Text(museum.phone)),
             ],
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Text(
-                "Directions",
-                textAlign: TextAlign.left,
-                style: TextStyle(
-                  fontSize: 32,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              Text(
-                "see directions",
-                style: TextStyle(color: primaryColor),
-              ),
-            ],
+          const SizedBox(height: 10),
+          const Text(
+            "Directions",
+            textAlign: TextAlign.left,
+            style: TextStyle(
+              fontSize: 32,
+              fontWeight: FontWeight.bold,
+            ),
           ),
 
-          Container(
+          SizedBox(
             height: 300,
-            color: Colors.red,
             child: CustomMap(lat: museum.latitude, lng: museum.longitude),
           ),
         ],

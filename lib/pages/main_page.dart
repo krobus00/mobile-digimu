@@ -70,7 +70,6 @@ class _MainPageState extends State<MainPage> {
 
     return Scaffold(
       backgroundColor: Colors.white,
-      floatingActionButton: cartButton(),
       bottomNavigationBar: customBottomNav(),
       body: body(),
     );

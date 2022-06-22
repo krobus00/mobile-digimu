@@ -15,6 +15,10 @@ class CustomMap extends StatelessWidget {
         center: LatLng(lat, lng),
         zoom: 16.0,
         minZoom: 16.0,
+        allowPanning: false,
+        allowPanningOnScrollingParent: false,
+        enableScrollWheel: false,
+        enableMultiFingerGestureRace: false,
       ),
       layers: [
         TileLayerOptions(
