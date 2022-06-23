@@ -279,7 +279,7 @@ void logFatal(String _h, Object? error, String message) {
 
 void logBuild(String _h, {LogLevel level = LogLevel.debugFinest}) {
   final timer = logTimerStart(_h, 'Building...', level: level);
-  SchedulerBinding.instance.addPostFrameCallback(
+  SchedulerBinding.instance?.addPostFrameCallback(
     (_) => logTimerStop(_h, timer, 'Built', level: level),
   );
 }
