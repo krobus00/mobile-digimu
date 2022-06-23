@@ -225,7 +225,7 @@ class _TransactionPaymentPageState extends State<TransactionPaymentPage> {
                           style: ElevatedButton.styleFrom(
                             primary: _image != null
                                 ? const Color.fromRGBO(252, 180, 42, 1)
-                                : Colors.grey,
+                                : const Color.fromRGBO(252, 180, 42, 1),
                             onPrimary: Colors.white,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(9.0),

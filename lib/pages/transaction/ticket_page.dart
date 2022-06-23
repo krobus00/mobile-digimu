@@ -96,11 +96,51 @@ class TransactionTicketPage extends StatelessWidget {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(
-                        top: 40.0, left: 30.0, right: 30.0),
+                        top: 25.0, left: 25.0, right: 25.0),
+                    child: Container(
+                      margin: const EdgeInsets.all(15.0),
+                      padding: const EdgeInsets.all(10.0),
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                            color: const Color.fromRGBO(42, 188, 247, 1),
+                            width: 3),
+                      ),
+                      child: Column(
+                        children: const [
+                          Padding(
+                            padding: EdgeInsets.only(top: 4.0),
+                            child: Text(
+                              "Museum Entrance QR Code",
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: Color.fromRGBO(68, 68, 68, 1),
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(top: 26, left: 10.0, right: 10.0),
+                    child: Column(
+                      children: [
+                        Image.asset(
+                          'assets/transaction/line.png',
+                        ),
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        top: 25.0, left: 40.0, right: 40.0),
                     child: QrImage(
                       data: "${item.id}DIGIUM${item.transactionId}",
                       version: QrVersions.auto,
-                      size: 250.0,
+                      size: 240.0,
                     ),
                   ),
                 ],
