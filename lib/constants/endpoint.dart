@@ -19,3 +19,4 @@ const profileEndpoint = "user/profile";
 const musuemListEndpoint = "museum";
 
 const transactionListEndpoint = "transaction";
+const transactionReceiptEndpoint = "transaction_receipt";

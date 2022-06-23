@@ -35,7 +35,6 @@ class SearchHeader extends SliverPersistentHeaderDelegate {
       left: 0,
       right: 0,
       child: Container(
-        // alignment: Alignment.center,
         height: max(
           maxTopBarHeight * (1 - shrinkFactor * 1.45),
           minTopBarHeight,
@@ -83,7 +82,6 @@ class SearchHeader extends SliverPersistentHeaderDelegate {
           ),
         ),
         decoration: BoxDecoration(
-          // color: primaryColor,
           gradient: mainGradient,
           borderRadius: const BorderRadius.only(
             bottomLeft: Radius.circular(24),

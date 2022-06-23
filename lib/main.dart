@@ -18,6 +18,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 const String _h = '[main]';
 Future main() async {
@@ -30,6 +31,7 @@ Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // depedency injector
   await setup();
+  await initializeDateFormatting("id_ID");
   runApp(const MyApp());
 }
 

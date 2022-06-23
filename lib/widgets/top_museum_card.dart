@@ -45,7 +45,6 @@ class TopMuseumCard extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              // const SizedBox(height: 20),
               Container(
                 margin: const EdgeInsets.all(20),
                 child: Column(
