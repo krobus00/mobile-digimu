@@ -75,4 +75,17 @@ class MuseumProvider with ChangeNotifier {
       return false;
     }
   }
+
+  Future<bool> getMuseum({
+    required int museumId,
+  }) async {
+    try {
+      MuseumModel museum = await _museumService.getMuseum(museumId: museumId);
+      _museum = museum;
+      notifyListeners();
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
 }

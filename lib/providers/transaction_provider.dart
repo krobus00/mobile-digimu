@@ -83,4 +83,18 @@ class TransactionProvider with ChangeNotifier {
       return false;
     }
   }
+
+  Future<bool> createTransaction({
+    required int museumId,
+    required List<String> names,
+  }) async {
+    try {
+      await _transactionService.createTransaction(
+          museumId: museumId, names: names);
+      notifyListeners();
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
 }

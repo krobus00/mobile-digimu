@@ -84,4 +84,35 @@ class TransactionService {
       rethrow;
     }
   }
+
+  Future<void> createTransaction({
+    required int museumId,
+    required List<String> names,
+  }) async {
+    try {
+      Map<String, dynamic> data = {
+        'museum_id': museumId,
+        'qty': names.length,
+        'transaction_item': [],
+      };
+      for (var i = 0; i < names.length; i++) {
+        (data['transaction_item'] as List).add({'name': names[i]});
+      }
+      var formData = FormData.fromMap(data);
+      await _networkLocator.dio.post(
+        transactionListEndpoint,
+        data: formData,
+      );
+    } catch (e) {
+      if (e.runtimeType == DioError) {
+        var dioException = e as DioError;
+        final result = dioException.response!;
+        logError(_h, result.data.toString());
+
+        throw Exception("Internal Server Error");
+      }
+      logError(_h, e.toString());
+      throw Exception("Something wrong");
+    }
+  }
 }
