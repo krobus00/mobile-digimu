@@ -78,6 +78,16 @@ class AuthProvider with ChangeNotifier {
     }
   }
 
+  Future<bool> logout() async {
+    try {
+      await _authService.logout();
+      await _prefsLocator.removeUserToken();
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
   bool get validate {
     return _user?.email.error == null &&
         _user?.name.error == null &&
