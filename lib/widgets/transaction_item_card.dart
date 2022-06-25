@@ -3,41 +3,28 @@ import 'package:digium/constants/theme.dart';
 import 'package:digium/injector/locator.dart';
 import 'package:digium/models/argument_model.dart';
 import 'package:digium/models/transaction_model.dart';
-import 'package:digium/providers/transaction_provider.dart';
 import 'package:digium/services/navigation_service.dart';
 import 'package:digium/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
 
-class TransactionCard extends StatelessWidget {
-  final TransactionModel transaction;
-  const TransactionCard({Key? key, required this.transaction})
+class TranscationItemCard extends StatelessWidget {
+  final TransactionModel? transaction;
+  final int index;
+  const TranscationItemCard(
+      {Key? key, required this.transaction, required this.index})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    TransactionProvider _transactionProvider =
-        Provider.of<TransactionProvider>(context);
     final _navLocator = getIt.get<NavigationService>();
     return GestureDetector(
       onTap: () async {
-        await _transactionProvider.getTransactionItems(
-            transactionId: transaction.id);
-
-        switch (transaction.status) {
-          case "Waiting Payment":
-            _navLocator.navigateTo(
-              routeName: "/transaction/payment",
-              arguments: TransactionDetailArgument(transaction: transaction),
-            );
-            break;
-
-          default:
-            _navLocator.navigateTo(
-              routeName: "/transaction/items",
-            );
-            break;
+        if (transaction!.items![index].status == "Verified") {
+          _navLocator.navigateTo(
+              routeName: "/transaction/tickets",
+              arguments:
+                  TicketDetailArgument(item: transaction!.items![index]));
         }
       },
       child: Container(
@@ -51,35 +38,19 @@ class TransactionCard extends StatelessWidget {
         ),
         child: Row(
           children: [
-            Container(
-              margin: const EdgeInsets.symmetric(
-                horizontal: 10.0,
-              ),
-              height: 70,
-              width: 70,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(15.0),
-                image: DecorationImage(
-                  fit: BoxFit.cover,
-                  image: NetworkImage(
-                    getAssetURL(assetMuseumURL, transaction.museum!.background),
-                  ),
-                ),
-              ),
-            ),
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.min,
+                  mainAxisSize: MainAxisSize.min, // set it to min
                   children: <Widget>[
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
                         Flexible(
                           child: Text(
-                            transaction.museum!.name,
+                            transaction!.items![index].name,
                             overflow: TextOverflow.ellipsis,
                             style: const TextStyle(
                               fontSize: 16,
@@ -94,7 +65,7 @@ class TransactionCard extends StatelessWidget {
                           height: 20,
                           child: Center(
                             child: Text(
-                              transactionStatus[transaction.status] ?? '',
+                              transaction!.items![index].status,
                               style: const TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,
@@ -102,7 +73,8 @@ class TransactionCard extends StatelessWidget {
                             ),
                           ),
                           decoration: BoxDecoration(
-                            color: transactionStatusColor[transaction.status],
+                            color: transactionItemStatusColor[
+                                transaction!.items![index].status],
                             borderRadius: BorderRadius.circular(15),
                           ),
                         ),
@@ -114,7 +86,7 @@ class TransactionCard extends StatelessWidget {
                       children: <Widget>[
                         Text(
                           DateFormat('d MMMM yyyy hh:mm', "id_ID")
-                              .format(transaction.createdAt),
+                              .format(transaction!.items![index].createdAt),
                           style: const TextStyle(
                             fontSize: 16,
                             color: Color.fromRGBO(68, 68, 68, 1),

@@ -8,7 +8,9 @@ class MuseumProvider with ChangeNotifier {
   MuseumModel? _museum;
   List<MuseumModel> _museums = [];
   List<MuseumModel> _topMuseums = [];
+  String _search = "";
 
+  String get search => _search;
   MuseumModel? get museum => _museum;
   List<MuseumModel> get museums => _museums;
   List<MuseumModel> get topMuseums => _topMuseums;
@@ -27,6 +29,11 @@ class MuseumProvider with ChangeNotifier {
 
   set museums(List<MuseumModel> museums) {
     _museums = museums;
+    notifyListeners();
+  }
+
+  set search(String keyword) {
+    _search = keyword;
     notifyListeners();
   }
 
@@ -69,6 +76,19 @@ class MuseumProvider with ChangeNotifier {
       }
       _paginationHasNext = pagination.paging.lastPage >= (page ?? 1);
 
+      notifyListeners();
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  Future<bool> getMuseum({
+    required int museumId,
+  }) async {
+    try {
+      MuseumModel museum = await _museumService.getMuseum(museumId: museumId);
+      _museum = museum;
       notifyListeners();
       return true;
     } catch (e) {

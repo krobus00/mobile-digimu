@@ -8,31 +8,40 @@ class TransactionModel {
     required this.status,
     required this.createdAt,
     required this.updatedAt,
-    required this.museum,
+    this.museum,
+    this.items,
   });
 
-  int id;
-  int userId;
-  int museumId;
-  int totalPrice;
-  int qty;
-  String status;
-  DateTime createdAt;
-  DateTime updatedAt;
-  TransactionMuseumModel museum;
+  late int id;
+  late int userId;
+  late int museumId;
+  late int totalPrice;
+  late int qty;
+  late String status;
+  late DateTime createdAt;
+  late DateTime updatedAt;
+  TransactionMuseumModel? museum;
+  late List<TransactionItemModel>? items;
 
-  factory TransactionModel.fromJson(Map<String, dynamic> json) =>
-      TransactionModel(
-        id: json["id"],
-        userId: json["user_id"],
-        museumId: json["museum_id"],
-        totalPrice: json["total_price"],
-        qty: json["qty"],
-        status: json["status"],
-        createdAt: DateTime.parse(json["created_at"]),
-        updatedAt: DateTime.parse(json["updated_at"]),
-        museum: TransactionMuseumModel.fromJson(json["museum"]),
-      );
+  TransactionModel.fromJson(Map<String, dynamic> json) {
+    id = json["id"];
+    userId = json["user_id"];
+    museumId = json["museum_id"];
+    totalPrice = json["total_price"];
+    qty = json["qty"];
+    status = json["status"];
+    createdAt = DateTime.parse(json["created_at"]);
+    updatedAt = DateTime.parse(json["updated_at"]);
+    if (json["museum"] != null) {
+      museum = TransactionMuseumModel.fromJson(json["museum"]);
+    }
+
+    if (json['transaction_item'] != null) {
+      items = (json['transaction_item'] as List)
+          .map((item) => TransactionItemModel.fromJson(item))
+          .toList();
+    }
+  }
 }
 
 class TransactionMuseumModel {
@@ -54,5 +63,36 @@ class TransactionMuseumModel {
         name: json["name"],
         background: json["background"],
         price: json["price"],
+      );
+}
+
+class TransactionItemModel {
+  TransactionItemModel({
+    required this.id,
+    required this.transactionId,
+    required this.name,
+    required this.qrCode,
+    required this.status,
+    required this.createdAt,
+    required this.updatedAt,
+  });
+
+  int id;
+  int transactionId;
+  String name;
+  dynamic qrCode;
+  String status;
+  DateTime createdAt;
+  DateTime updatedAt;
+
+  factory TransactionItemModel.fromJson(Map<String, dynamic> json) =>
+      TransactionItemModel(
+        id: json["id"],
+        transactionId: json["transaction_id"],
+        name: json["name"],
+        qrCode: json["qr_code"],
+        status: json["status"],
+        createdAt: DateTime.parse(json["created_at"]),
+        updatedAt: DateTime.parse(json["updated_at"]),
       );
 }

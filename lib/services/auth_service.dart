@@ -28,8 +28,8 @@ class AuthService {
       var data = response.data['data'];
 
       UserModel user = UserModel.fromJson(data['user']);
-      user.clearError;
       user.token.value = 'Bearer ' + data['token'];
+      user.clearError();
       return user;
     } catch (e) {
       if (e.runtimeType == DioError) {
@@ -62,6 +62,7 @@ class AuthService {
       logDebug(_h, "masuk?");
       UserModel user = UserModel.fromJson(data['user']);
       user.token.value = 'Bearer ' + data['token'];
+      user.clearError();
 
       return user;
     } catch (e) {
@@ -105,6 +106,7 @@ class AuthService {
 
       var data = response.data['data'];
       UserModel user = UserModel.fromJson(data);
+      user.clearError();
       return user;
     } catch (e) {
       if (e.runtimeType == DioError) {
@@ -146,6 +148,23 @@ class AuthService {
         final result = dioException.response!;
         logError(_h, result.data.toString());
 
+        throw Exception("Internal Server Error");
+      }
+      logError(_h, e.toString());
+      throw Exception("Something wrong");
+    }
+  }
+
+  Future<void> logout() async {
+    try {
+      await _networkLocator.dio.get(
+        logoutEndpoint,
+      );
+    } catch (e) {
+      if (e.runtimeType == DioError) {
+        var dioException = e as DioError;
+        final result = dioException.response!;
+        logError(_h, result.data.toString());
         throw Exception("Internal Server Error");
       }
       logError(_h, e.toString());

@@ -28,6 +28,7 @@ class _ExplorePageState extends State<ExplorePage> {
         _isLoading = true;
       });
       bool hasNext = await _museumProvider.getMuseums(
+        search: _museumProvider.search,
         firstFetch: false,
         page: _page,
         paginate: _paginate,
@@ -58,7 +59,11 @@ class _ExplorePageState extends State<ExplorePage> {
     MuseumProvider _museumProvider =
         Provider.of<MuseumProvider>(context, listen: false);
     await _museumProvider.getMuseums(
-        firstFetch: true, page: _page, paginate: _paginate);
+      firstFetch: true,
+      page: _page,
+      paginate: _paginate,
+      search: _museumProvider.search,
+    );
   }
 
   @override

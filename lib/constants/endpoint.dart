@@ -15,7 +15,9 @@ var assetMuseumURL = assetURL + "/images/museum/";
 const registerEndpoint = "user/register";
 const loginEndpoint = "user/login";
 const profileEndpoint = "user/profile";
+const logoutEndpoint = "user/logout";
 
 const musuemListEndpoint = "museum";
 
 const transactionListEndpoint = "transaction";
+const transactionReceiptEndpoint = "transaction_receipt";

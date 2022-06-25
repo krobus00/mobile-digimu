@@ -2,6 +2,7 @@ import 'package:digium/models/gallery_model.dart';
 
 class MuseumModel {
   late int id;
+  late int price;
   late String name;
   late String background;
   late String panorama;
@@ -24,6 +25,7 @@ class MuseumModel {
     required this.yearBuilt,
     required this.latitude,
     required this.longitude,
+    required this.price,
     this.galleries,
   });
 
@@ -38,10 +40,11 @@ class MuseumModel {
     yearBuilt = DateTime.parse(json['year_built']);
     latitude = json['latitude'];
     longitude = json['longitude'];
+    price = json['price'];
 
     // parse array of object
-    if (json['galleries'] != null) {
-      galleries = json['galleries']
+    if (json['gallery'] != null) {
+      galleries = (json['gallery'] as List)
           .map((gallery) => GalleryModel.fromJson(gallery))
           .toList();
     }

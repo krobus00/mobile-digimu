@@ -1,14 +1,14 @@
 class GalleryModel {
-  late int id;
-  late String photo;
+  int id;
+  String photo;
 
   GalleryModel({
     required this.id,
     required this.photo,
   });
 
-  GalleryModel.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    photo = json['photo'];
-  }
+  factory GalleryModel.fromJson(Map<String, dynamic> json) => GalleryModel(
+        id: json["id"],
+        photo: json["photo"],
+      );
 }
