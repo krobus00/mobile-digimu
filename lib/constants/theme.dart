@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 double defaultMargin = 10.0;
 double authMargin = 30.0;
@@ -52,3 +53,31 @@ Map<String, Color> transactionItemStatusColor = {
   "Verified": const Color.fromRGBO(122, 233, 139, 1),
   "Waiting": const Color.fromRGBO(255, 168, 0, 1),
 };
+
+// Fonts
+TextStyle digium = GoogleFonts.nunito(
+    fontSize: 48,
+    fontWeight: FontWeight.w900,
+    letterSpacing: -0.045,
+    color: Colors.white);
+
+TextStyle title1 = GoogleFonts.playfairDisplay(
+    fontSize: 48, fontWeight: bold, color: Colors.white);
+
+TextStyle title2 = GoogleFonts.playfairDisplay(
+    fontSize: 36, fontWeight: bold, color: titleColor);
+
+TextStyle subTitle1 = GoogleFonts.openSans(
+    fontSize: 18, fontWeight: regular, color: subtitleColor);
+
+TextStyle button2 = GoogleFonts.openSans(
+    fontSize: 14, fontWeight: regular, color: primaryColor);
+
+TextStyle headerSubTitle1 =
+    GoogleFonts.openSans(fontSize: 18, fontWeight: light, color: Colors.white);
+
+TextStyle button1 =
+    GoogleFonts.openSans(fontSize: 18, fontWeight: bold, color: Colors.white);
+
+TextStyle caption1 = GoogleFonts.openSans(
+    fontSize: 14, fontWeight: regular, color: subtitleColor);
