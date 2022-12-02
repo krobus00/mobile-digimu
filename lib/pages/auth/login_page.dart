@@ -8,6 +8,7 @@ import 'package:digium/widgets/custom_field.dart';
 import 'package:digium/widgets/loading_button.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -87,7 +88,6 @@ class _LoginPageState extends State<LoginPage> {
 
     Widget header() {
       return Container(
-        height: 139,
         width: double.infinity,
         decoration: const BoxDecoration(
           image: DecorationImage(
@@ -97,26 +97,20 @@ class _LoginPageState extends State<LoginPage> {
         ),
         child: Container(
           alignment: Alignment.bottomLeft,
-          margin: EdgeInsets.all(authMargin),
+          margin: EdgeInsets.symmetric(horizontal: authMargin, vertical: 28),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
+              const SizedBox(height: 76),
               Text(
                 'Login',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 48,
-                  fontWeight: semiBold,
-                ),
+                style: title1,
               ),
               const SizedBox(height: 2),
-              const Text(
+              Text(
                 'Login to continue',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 18,
-                ),
+                style: headerSubTitle1,
               ),
             ],
           ),
@@ -174,11 +168,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 child: Text(
                   "Sign In",
-                  style: TextStyle(
-                    fontWeight: medium,
-                    color: Colors.white,
-                    fontSize: 16,
-                  ),
+                  style: button1,
                 ),
               ),
       );
@@ -201,13 +191,19 @@ class _LoginPageState extends State<LoginPage> {
                     borderRadius: BorderRadius.circular(12),
                   ),
                 ),
-                child: Text(
-                  "Google",
-                  style: TextStyle(
-                    fontWeight: medium,
-                    color: Colors.white,
-                    fontSize: 16,
-                  ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Icon(
+                      FontAwesomeIcons.google,
+                      color: Colors.white,
+                    ),
+                    const SizedBox(width: 10),
+                    Text(
+                      "Google",
+                      style: button1,
+                    ),
+                  ],
                 ),
               ),
       );
@@ -219,21 +215,18 @@ class _LoginPageState extends State<LoginPage> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text(
+            Text(
               "Don't have an account? ",
-              style: TextStyle(fontSize: 14),
+              style: caption1,
             ),
-            TextButton(
-              onPressed: () {
+            GestureDetector(
+              onTap: () {
                 user?.clearError();
                 _navLocator.navigateAndReplaceTo(routeName: "/register");
               },
               child: Text(
                 "Register",
-                style: TextStyle(
-                  fontSize: 14,
-                  color: primaryColor,
-                ),
+                style: caption1.copyWith(color: primaryColor),
               ),
             ),
           ],
@@ -252,6 +245,7 @@ class _LoginPageState extends State<LoginPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                SizedBox(height: 30),
                 emailInput(),
                 passwordInput(),
                 signInButton(),

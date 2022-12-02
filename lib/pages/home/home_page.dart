@@ -63,71 +63,62 @@ class _HomePageState extends State<HomePage> {
 
     Widget popularMuseumTitle() {
       return Container(
-        margin: EdgeInsets.only(
-          top: defaultMargin,
-          left: defaultMargin,
-          right: defaultMargin,
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              "Popular",
-              style: TextStyle(
-                fontSize: 36,
-                fontWeight: bold,
+        // margin: EdgeInsets.only(
+        //   top: defaultMargin,
+        //   left: defaultMargin,
+        //   right: defaultMargin,
+        // ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 33),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "Popular",
+                style: title2,
               ),
-            ),
-            const SizedBox(height: 16),
-            Text(
-              "Most visited Museum",
-              style: TextStyle(
-                fontSize: 14,
-                fontWeight: semiBold,
+              const SizedBox(height: 4),
+              Text(
+                "Most visited Museum",
+                style: subTitle1.copyWith(fontSize: 14, color: bodyColor),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       );
     }
 
     Widget museumListTitle() {
       return Container(
-        margin: EdgeInsets.only(
-          top: defaultMargin,
-          left: defaultMargin,
-          right: defaultMargin,
-        ),
+        margin: const EdgeInsets.only(left: 33, right: 33, top: 30, bottom: 23),
+        clipBehavior: Clip.none,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
               "Museum List",
-              style: TextStyle(
-                fontSize: 36,
-                fontWeight: bold,
-              ),
+              style: title2,
             ),
+            const SizedBox(height: 4),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
                   "Here are some museums to check",
-                  style: TextStyle(
+                  style: subTitle1.copyWith(
                     fontSize: 14,
-                    fontWeight: semiBold,
                   ),
                 ),
-                TextButton(
-                  onPressed: () {
+                GestureDetector(
+                  onTap: () {
                     menuProvider.currentIndex = 1;
                   },
                   child: Text(
                     "see all",
-                    style: TextStyle(
+                    style: subTitle1.copyWith(
                       fontWeight: semiBold,
                       color: primaryColor,
-                      fontSize: 16,
+                      fontSize: 14,
                     ),
                   ),
                 ),
@@ -140,21 +131,24 @@ class _HomePageState extends State<HomePage> {
 
     Widget popularMuseum() {
       return Container(
-        margin: EdgeInsets.only(
-          top: defaultMargin,
-          left: defaultMargin,
-          right: defaultMargin,
-        ),
+        // margin: EdgeInsets.only(
+        //   top: defaultMargin,
+        //   left: defaultMargin,
+        //   right: defaultMargin,
+        // ),
         child: SingleChildScrollView(
           scrollDirection: Axis.horizontal,
-          child: Row(
-            children: museumProvider.topMuseums
-                .map(
-                  (m) => TopMuseumCard(
-                    museum: m,
-                  ),
-                )
-                .toList(),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 33),
+            child: Row(
+              children: museumProvider.topMuseums
+                  .map(
+                    (m) => TopMuseumCard(
+                      museum: m,
+                    ),
+                  )
+                  .toList(),
+            ),
           ),
         ),
       );
@@ -162,13 +156,13 @@ class _HomePageState extends State<HomePage> {
 
     Widget listMuseums() {
       return SliverPadding(
-        padding: EdgeInsets.all(defaultMargin),
+        padding: const EdgeInsets.only(left: 33, right: 33, bottom: 24),
         sliver: SliverGrid(
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            mainAxisSpacing: 5.0,
-            crossAxisSpacing: 5.0,
+            mainAxisSpacing: 8.0,
+            crossAxisSpacing: 16.0,
             crossAxisCount: 2,
-            childAspectRatio: 1 / 1,
+            childAspectRatio: 163 / 171,
           ),
           delegate: SliverChildListDelegate(
             museumProvider.museums
@@ -201,6 +195,7 @@ class _HomePageState extends State<HomePage> {
             delegate: SliverChildListDelegate(
               [
                 popularMuseumTitle(),
+                const SizedBox(height: 23),
                 popularMuseum(),
                 museumListTitle(),
               ],

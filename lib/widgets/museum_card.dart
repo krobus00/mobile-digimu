@@ -30,18 +30,16 @@ class MuseumCard extends StatelessWidget {
       },
       child: Container(
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(15.0),
+          borderRadius: BorderRadius.circular(5.0),
           image: DecorationImage(
+            image: NetworkImage(getAssetURL(assetMuseumURL, museum.background)),
             fit: BoxFit.cover,
-            image: NetworkImage(
-              getAssetURL(assetMuseumURL, museum.background),
-            ),
           ),
         ),
+        clipBehavior: Clip.antiAlias,
         child: Container(
           decoration: BoxDecoration(
             gradient: cardGradient,
-            borderRadius: BorderRadius.circular(15.0),
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.end,
@@ -54,10 +52,7 @@ class MuseumCard extends StatelessWidget {
                     Text(
                       museum.name,
                       maxLines: 2,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18,
-                        fontWeight: semiBold,
+                      style: cardTitle1.copyWith(
                         overflow: TextOverflow.fade,
                       ),
                     ),

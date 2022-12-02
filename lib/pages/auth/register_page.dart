@@ -8,6 +8,7 @@ import 'package:digium/widgets/custom_field.dart';
 import 'package:digium/widgets/loading_button.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({Key? key}) : super(key: key);
@@ -99,7 +100,6 @@ class _RegisterPageState extends State<RegisterPage> {
 
     Widget header() {
       return Container(
-        height: 139,
         width: double.infinity,
         decoration: const BoxDecoration(
           image: DecorationImage(
@@ -109,26 +109,20 @@ class _RegisterPageState extends State<RegisterPage> {
         ),
         child: Container(
           alignment: Alignment.bottomLeft,
-          margin: EdgeInsets.all(authMargin),
+          margin: EdgeInsets.symmetric(horizontal: authMargin, vertical: 28),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
+              const SizedBox(height: 76),
               Text(
                 'Register',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 48,
-                  fontWeight: semiBold,
-                ),
+                style: title1,
               ),
               const SizedBox(height: 2),
-              const Text(
+              Text(
                 'Register for an account',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 18,
-                ),
+                style: headerSubTitle1,
               ),
             ],
           ),
@@ -138,7 +132,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
     Widget nameInput() {
       return Container(
-        margin: const EdgeInsets.only(top: 70),
+        margin: const EdgeInsets.only(top: 50),
         child: CustomField(
           label: "Full name",
           hintText: "Your full name",
@@ -186,7 +180,7 @@ class _RegisterPageState extends State<RegisterPage> {
       return Container(
         height: 50,
         width: double.infinity,
-        margin: const EdgeInsets.only(top: 30),
+        margin: const EdgeInsets.only(top: 24),
         child: isLoading
             ? const LoadingButton()
             : TextButton(
@@ -201,11 +195,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 ),
                 child: Text(
                   "Register",
-                  style: TextStyle(
-                    fontWeight: medium,
-                    color: Colors.white,
-                    fontSize: 16,
-                  ),
+                  style: button1,
                 ),
               ),
       );
@@ -228,13 +218,19 @@ class _RegisterPageState extends State<RegisterPage> {
                     borderRadius: BorderRadius.circular(12),
                   ),
                 ),
-                child: Text(
-                  "Google",
-                  style: TextStyle(
-                    fontWeight: medium,
-                    color: Colors.white,
-                    fontSize: 16,
-                  ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Icon(
+                      FontAwesomeIcons.google,
+                      color: Colors.white,
+                    ),
+                    const SizedBox(width: 10),
+                    Text(
+                      "Google",
+                      style: button1,
+                    ),
+                  ],
                 ),
               ),
       );
@@ -242,25 +238,23 @@ class _RegisterPageState extends State<RegisterPage> {
 
     Widget footer() {
       return Container(
-        margin: const EdgeInsets.only(bottom: 30),
+        margin: const EdgeInsets.only(bottom: 30, top: 30),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text(
+            Text(
               "Already have an account?",
-              style: TextStyle(fontSize: 14),
+              style: caption1,
             ),
-            TextButton(
-              onPressed: () {
+            const SizedBox(width: 4),
+            GestureDetector(
+              onTap: () {
                 user?.clearError();
                 _navLocator.navigateAndReplaceTo(routeName: "/login");
               },
               child: Text(
                 "Login",
-                style: TextStyle(
-                  fontSize: 14,
-                  color: primaryColor,
-                ),
+                style: caption1.copyWith(color: primaryColor),
               ),
             ),
           ],
@@ -270,26 +264,27 @@ class _RegisterPageState extends State<RegisterPage> {
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          header(),
-          Container(
-            margin: EdgeInsets.symmetric(horizontal: authMargin),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                nameInput(),
-                emailInput(),
-                passwordInput(),
-                registerButton(),
-                googleButton(),
-              ],
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            header(),
+            Container(
+              margin: EdgeInsets.symmetric(horizontal: authMargin),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  nameInput(),
+                  emailInput(),
+                  passwordInput(),
+                  registerButton(),
+                  googleButton(),
+                ],
+              ),
             ),
-          ),
-          const Spacer(),
-          footer(),
-        ],
+            footer(),
+          ],
+        ),
       ),
     );
   }

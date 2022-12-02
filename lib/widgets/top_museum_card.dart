@@ -8,6 +8,7 @@ import 'package:digium/constants/theme.dart';
 import 'package:digium/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:digium/constants/theme.dart';
 
 class TopMuseumCard extends StatelessWidget {
   final MuseumModel museum;
@@ -35,7 +36,7 @@ class TopMuseumCard extends StatelessWidget {
           right: 10.0,
         ),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(15.0),
+          borderRadius: BorderRadius.circular(5.0),
           image: DecorationImage(
             fit: BoxFit.cover,
             image: NetworkImage(
@@ -43,35 +44,34 @@ class TopMuseumCard extends StatelessWidget {
             ),
           ),
         ),
+        clipBehavior: Clip.antiAlias,
         child: Container(
           decoration: BoxDecoration(
             gradient: cardGradient,
-            borderRadius: BorderRadius.circular(15.0),
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               Container(
+                width: double.infinity,
                 margin: const EdgeInsets.all(20),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       museum.yearBuilt.year.toString(),
-                      style: const TextStyle(
+                      style: caption1.copyWith(
                         color: Colors.white,
                         fontSize: 12,
                         overflow: TextOverflow.fade,
                       ),
                     ),
-                    const SizedBox(height: 6),
+                    const SizedBox(height: 2),
                     Text(
                       museum.name,
                       maxLines: 2,
-                      style: TextStyle(
-                        color: Colors.white,
+                      style: cardTitle1.copyWith(
                         fontSize: 18,
-                        fontWeight: semiBold,
                         overflow: TextOverflow.fade,
                       ),
                     ),
