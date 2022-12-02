@@ -1,4 +1,5 @@
 import 'package:digium/constants/endpoint.dart';
+import 'package:digium/constants/theme.dart';
 import 'package:digium/models/museum_model.dart';
 import 'package:digium/pages/museum/about_tab.dart';
 import 'package:digium/pages/museum/galleries_tab.dart';
@@ -49,14 +50,14 @@ class _MuseumDetailPageState extends State<MuseumDetailPage>
             return <Widget>[
               SliverAppBar(
                 // backgroundColor: Colors.white,
-                expandedHeight: 200.0,
+                expandedHeight: 365.0,
                 floating: false,
                 pinned: true,
                 flexibleSpace: FlexibleSpaceBar(
                   centerTitle: true,
                   title: Text(
                     museum.name,
-                    style: const TextStyle(
+                    style: title2.copyWith(
                       color: Colors.white,
                       fontSize: 16.0,
                     ),

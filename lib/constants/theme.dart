@@ -11,6 +11,7 @@ Color warningColor = const Color(0xFFFCB42A);
 Color dangerColor = const Color(0xFFFC502A);
 Color titleColor = const Color(0xFF444444);
 Color subtitleColor = const Color(0xFFA7A7A7);
+Color bodyColor = const Color(0xFF9D9D9D);
 
 LinearGradient mainGradient = const LinearGradient(
   begin: Alignment.topRight,
@@ -23,9 +24,11 @@ LinearGradient mainGradient = const LinearGradient(
 
 LinearGradient cardGradient = LinearGradient(
   begin: Alignment.bottomCenter,
+  end: Alignment.topCenter,
   colors: [
-    Colors.black.withOpacity(.4),
-    Colors.black.withOpacity(.1),
+    Color(0xFF313131).withOpacity(1),
+    Colors.black.withOpacity(0),
+    Colors.black.withOpacity(0),
   ],
 );
 
@@ -66,6 +69,9 @@ TextStyle title1 = GoogleFonts.playfairDisplay(
 
 TextStyle title2 = GoogleFonts.playfairDisplay(
     fontSize: 36, fontWeight: bold, color: titleColor);
+
+TextStyle cardTitle1 =
+    GoogleFonts.openSans(fontSize: 13, fontWeight: bold, color: Colors.white);
 
 TextStyle subTitle1 = GoogleFonts.openSans(
     fontSize: 18, fontWeight: regular, color: subtitleColor);
