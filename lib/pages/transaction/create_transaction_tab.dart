@@ -177,43 +177,7 @@ class _CreateTransactionTabState extends State<CreateTransactionTab> {
                 .map((e) => _ticketNameInput(e.key + 1, e.value))
                 .toList(),
             const SizedBox(height: 10),
-            // Container(
-            //   margin: const EdgeInsets.symmetric(horizontal: 15),
-            //   child: Column(
-            //     children: [
-            //       const SizedBox(height: 10),
-            //       Text(
-            //         "Total ${formatCurrency.format(museum.price * _ticketsNameController.length)}",
-            //         style: const TextStyle(
-            //             fontSize: 24, fontWeight: FontWeight.bold),
-            //       ),
-            //       const SizedBox(height: 10),
-            //       ElevatedButton(
-            //         style: ElevatedButton.styleFrom(
-            //           primary: Colors.blue,
-            //           minimumSize: const Size.fromHeight(50), // NEW
-            //         ),
-            //         onPressed: () async {
-            //           List<String> names = [];
-            //           for (var item in _ticketsNameController) {
-            //             names.add(item.text);
-            //           }
-    
-            //           bool isSuccess =
-            //               await _transactionProvider.createTransaction(
-            //                   museumId: museum.id, names: names);
-            //           if (isSuccess) {
-            //             Navigator.pop(context);
-            //           }
-            //         },
-            //         child: const Text(
-            //           'Order',
-            //           style: TextStyle(fontSize: 18),
-            //         ),
-            //       ),
-            //     ],
-            //   ),
-            // ),
+           
           ],
         ),
       ),
