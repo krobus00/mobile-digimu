@@ -1,3 +1,4 @@
+import 'package:digium/constants/theme.dart';
 import 'package:digium/injector/locator.dart';
 import 'package:digium/models/onboard_model.dart';
 import 'package:digium/services/navigation_service.dart';
@@ -66,11 +67,8 @@ class _OnboardPageState extends State<OnboardPage> {
                     alignment: Alignment.topLeft,
                     child: Text(
                       "digium",
-                      style: TextStyle(
-                        fontSize: 38,
-                        color: screens[index].btnColor,
-                        fontWeight: FontWeight.bold,
-                      ),
+                      style: digium.copyWith(
+                          color: screens[index].btnColor, fontSize: 38),
                     ),
                   ),
                   const Spacer(
@@ -88,18 +86,21 @@ class _OnboardPageState extends State<OnboardPage> {
                     children: [
                       Text(
                         screens[index].title,
-                        style: TextStyle(
-                          fontSize: 36,
-                          fontWeight: FontWeight.bold,
+                        style: title2.copyWith(
                           color: screens[index].titleColor,
                         ),
                       ),
+                      const SizedBox(
+                        height: 23,
+                      ),
                       Text(
                         screens[index].desc,
-                        style: TextStyle(
-                          fontSize: 18,
+                        style: subTitle1.copyWith(
                           color: screens[index].descColor,
                         ),
+                      ),
+                      const SizedBox(
+                        height: 23,
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -146,7 +147,7 @@ class _OnboardPageState extends State<OnboardPage> {
                                 },
                                 child: Text(
                                   "skip",
-                                  style: TextStyle(
+                                  style: button2.copyWith(
                                     color: screens[index].btnColor,
                                   ),
                                 ),
@@ -180,8 +181,7 @@ class _OnboardPageState extends State<OnboardPage> {
                                         index == screens.length - 1
                                             ? "Login"
                                             : "Next",
-                                        style: TextStyle(
-                                          fontSize: 16,
+                                        style: button2.copyWith(
                                           color: screens[index].btnTextColor,
                                         ),
                                       ),

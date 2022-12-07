@@ -1,3 +1,4 @@
+import 'package:digium/constants/theme.dart';
 import 'package:digium/injector/locator.dart';
 import 'package:digium/providers/auth_provider.dart';
 import 'package:digium/services/navigation_service.dart';
@@ -71,24 +72,19 @@ class _SplashState extends State<Splash> {
                 padding: const EdgeInsets.all(32.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const <Widget>[
+                  children: <Widget>[
                     Text(
                       'digium',
                       textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 48,
-                        fontWeight: FontWeight.bold,
-                      ),
+                      style: digium,
+                    ),
+                    const SizedBox(
+                      height: 3,
                     ),
                     Text(
                       'Learn to love your country',
                       textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
-                        fontWeight: FontWeight.w300,
-                      ),
+                      style: headerSubTitle1.copyWith(fontSize: 20),
                     ),
                   ],
                 ),
