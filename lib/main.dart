@@ -1,3 +1,4 @@
+import 'package:digium/pages/transaction/create_transaction_tab.dart';
 import 'package:digium/pages/transaction/item_page.dart';
 import 'package:digium/pages/transaction/payment_page.dart';
 import 'package:digium/pages/transaction/ticket_page.dart';
@@ -70,6 +71,7 @@ class MyApp extends StatelessWidget {
           '/transaction/tickets': (context) => const TransactionTicketPage(),
           '/transaction/payment': (context) => const TransactionPaymentPage(),
           '/transaction/items': (context) => const TransactionItemPage(),
+          '/transaction/museum': (context) => const CreateTransactionTab()
         },
       ),
     );
