@@ -1,5 +1,7 @@
-lintOptions {
-    checkReleaseBuilds false
+android {
+    lintOptions {
+        checkReleaseBuilds false
+    }
 }
 buildscript {
     ext.kotlin_version = '1.6.21'
