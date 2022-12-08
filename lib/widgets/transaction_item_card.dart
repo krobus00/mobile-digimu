@@ -20,7 +20,7 @@ class TranscationItemCard extends StatelessWidget {
     final _navLocator = getIt.get<NavigationService>();
     return GestureDetector(
       onTap: () async {
-        if (transaction!.items![index].status == "Verified") {
+        if (transaction!.items![index].status == "Waiting") {
           _navLocator.navigateTo(
               routeName: "/transaction/tickets",
               arguments:
