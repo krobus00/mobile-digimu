@@ -1,6 +1,8 @@
 import 'package:digium/constants/endpoint.dart';
 
 import 'package:digium/constants/theme.dart';
+import 'package:digium/injector/locator.dart';
+import 'package:digium/models/argument_model.dart';
 import 'package:digium/models/museum_model.dart';
 import 'package:digium/pages/museum/about_tab.dart';
 import 'package:digium/pages/museum/galleries_tab.dart';
@@ -45,7 +47,6 @@ class _MuseumDetailPageState extends State<MuseumDetailPage>
         ModalRoute.of(context)!.settings.arguments as MuseumDetailArguments;
     final museum = arguments.museum;
     final formatCurrency = NumberFormat.simpleCurrency(locale: 'id_ID');
-    
 
     return Scaffold(
       body: DefaultTabController(
@@ -111,33 +112,34 @@ class _MuseumDetailPageState extends State<MuseumDetailPage>
                 Text(
                   formatCurrency.format(museum.price),
                   style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18,
-                    color: Color.fromARGB(255, 62, 176, 243)
-                  ),
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                      color: Color.fromARGB(255, 62, 176, 243)),
                 ),
               ],
             ),
-            
-            SizedBox(width: 118,),
+            SizedBox(
+              width: 118,
+            ),
             ElevatedButton(
-              child: Text(
-                "Buy".toUpperCase(),
-                style: TextStyle(fontSize: 14),
-              ),
-              style: ButtonStyle(
-                minimumSize: MaterialStateProperty.all<Size>(Size(128, 39)),
-                foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
-                backgroundColor: MaterialStateProperty.all<Color>(Color.fromARGB(255, 252, 180, 42)),
-                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                  const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(6.0)),
-                    // side: BorderSide(color: Colors.red)
-                  )
-                )
-              ),
-              onPressed: () => _navLocator.navigateAndReplaceTo(routeName: "/transaction/museum",arguments: TransactionMuseum(museum: museum))
-            )
+                child: Text(
+                  "Buy".toUpperCase(),
+                  style: TextStyle(fontSize: 14),
+                ),
+                style: ButtonStyle(
+                    minimumSize: MaterialStateProperty.all<Size>(Size(128, 39)),
+                    foregroundColor:
+                        MaterialStateProperty.all<Color>(Colors.white),
+                    backgroundColor: MaterialStateProperty.all<Color>(
+                        Color.fromARGB(255, 252, 180, 42)),
+                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                        const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(6.0)),
+                      // side: BorderSide(color: Colors.red)
+                    ))),
+                onPressed: () => _navLocator.navigateAndReplaceTo(
+                    routeName: "/transaction/museum",
+                    arguments: TransactionMuseum(museum: museum)))
           ],
         ),
       ),
