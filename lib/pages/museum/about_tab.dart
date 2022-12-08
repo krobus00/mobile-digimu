@@ -16,62 +16,84 @@ class AboutTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 15),
+      // margin: EdgeInsets.symmetric(horizontal: 34),
       child: ListView(
         children: [
-          const Text(
-            "About",
-            textAlign: TextAlign.left,
-            style: TextStyle(
-              fontSize: 32,
-              fontWeight: FontWeight.bold,
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 33),
+            child: Text(
+              "About",
+              textAlign: TextAlign.left,
+              style: title3,
             ),
           ),
-          Text(
-            museum.description,
-            textAlign: TextAlign.justify,
-            style: const TextStyle(fontSize: 16),
+          const SizedBox(height: 12),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 33),
+            child: Text(
+              museum.description,
+              textAlign: TextAlign.justify,
+              style: body1,
+            ),
           ),
           const SizedBox(height: 10),
           // const Spacer(),
-          const Text(
-            "Information",
-            textAlign: TextAlign.left,
-            style: TextStyle(
-              fontSize: 32,
-              fontWeight: FontWeight.bold,
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 33),
+            child: Text(
+              "Information",
+              textAlign: TextAlign.left,
+              style: title3,
             ),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Icon(
-                Icons.pin_drop,
-                color: primaryColor,
-              ),
-              Flexible(child: Text(museum.address)),
-            ],
-          ),
-          const SizedBox(height: 10),
-          Row(
-            children: [
-              Icon(
-                Icons.phone_enabled_outlined,
-                color: primaryColor,
-              ),
-              Flexible(child: Text(museum.phone)),
-            ],
-          ),
-          const SizedBox(height: 10),
-          const Text(
-            "Directions",
-            textAlign: TextAlign.left,
-            style: TextStyle(
-              fontSize: 32,
-              fontWeight: FontWeight.bold,
+          const SizedBox(height: 12),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 33),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Icon(
+                  Icons.pin_drop,
+                  color: primaryColor,
+                ),
+                const SizedBox(width: 20),
+                Flexible(
+                    child: Text(
+                  museum.address,
+                  style: body1,
+                )),
+              ],
             ),
           ),
+          const SizedBox(height: 10),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 33),
+            child: Row(
+              children: [
+                Icon(
+                  Icons.phone_enabled_outlined,
+                  color: primaryColor,
+                ),
+                const SizedBox(width: 20),
+                Flexible(
+                    child: Text(
+                  museum.phone,
+                  style: body1,
+                )),
+              ],
+            ),
+          ),
+          const SizedBox(height: 36),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 33),
+            child: Text(
+              "Directions",
+              textAlign: TextAlign.left,
+              style: title3,
+            ),
+          ),
+          const SizedBox(height: 12),
 
           SizedBox(
             height: 300,

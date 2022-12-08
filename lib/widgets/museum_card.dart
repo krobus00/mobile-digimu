@@ -46,6 +46,7 @@ class MuseumCard extends StatelessWidget {
             children: [
               Container(
                 margin: const EdgeInsets.all(20),
+                width: double.infinity,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [

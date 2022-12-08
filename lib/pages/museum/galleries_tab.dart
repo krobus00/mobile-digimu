@@ -11,7 +11,7 @@ class GalleriesTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 18.0),
+      padding: const EdgeInsets.only(top: 27.0, left: 33, right: 33),
       child: MasonryGridView.count(
         crossAxisCount: 2,
         crossAxisSpacing: 12,
