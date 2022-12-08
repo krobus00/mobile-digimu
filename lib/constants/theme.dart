@@ -70,6 +70,9 @@ TextStyle title1 = GoogleFonts.playfairDisplay(
 TextStyle title2 = GoogleFonts.playfairDisplay(
     fontSize: 36, fontWeight: bold, color: titleColor);
 
+TextStyle title3 = GoogleFonts.playfairDisplay(
+    fontSize: 24, fontWeight: bold, color: titleColor);
+
 TextStyle cardTitle1 =
     GoogleFonts.openSans(fontSize: 13, fontWeight: bold, color: Colors.white);
 
@@ -87,3 +90,6 @@ TextStyle button1 =
 
 TextStyle caption1 = GoogleFonts.openSans(
     fontSize: 14, fontWeight: regular, color: subtitleColor);
+
+TextStyle body1 =
+    GoogleFonts.openSans(fontSize: 12, fontWeight: light, color: Colors.black);

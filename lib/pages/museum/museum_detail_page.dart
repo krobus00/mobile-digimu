@@ -19,7 +19,7 @@ class _MuseumDetailPageState extends State<MuseumDetailPage>
   static const List<Tab> myTabs = <Tab>[
     Tab(text: 'About'),
     Tab(text: 'Galleries'),
-    Tab(text: 'Buy Ticket'),
+    // Tab(text: 'Buy Ticket'),
   ];
 
   late TabController _tabController;
@@ -86,7 +86,7 @@ class _MuseumDetailPageState extends State<MuseumDetailPage>
             children: [
               AboutTab(museum: museum),
               GalleriesTab(galleries: museum.galleries ?? []),
-              CreateTransactionTab(museum: museum),
+              // CreateTransactionTab(museum: museum),
             ],
           ),
         ),
