@@ -54,6 +54,7 @@ Map<String, String> transactionStatus = {
 
 Map<String, Color> transactionItemStatusColor = {
   "Verified": const Color.fromRGBO(122, 233, 139, 1),
+  "Paid": const Color.fromRGBO(122, 233, 139, 1),
   "Waiting": const Color.fromRGBO(255, 168, 0, 1),
 };
 
