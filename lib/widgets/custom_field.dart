@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 class CustomField extends StatefulWidget {
   const CustomField({
     Key? key,
-    required this.label,
+    this.label,
     required this.hintText,
     this.errorText,
     this.inputFormatters,
@@ -16,7 +16,7 @@ class CustomField extends StatefulWidget {
     this.onChanged,
   }) : super(key: key);
   final String hintText;
-  final String label;
+  final String? label;
   final List<TextInputFormatter>? inputFormatters;
   final String? errorText;
   final bool isLoading;
@@ -35,27 +35,35 @@ class _CustomFieldState extends State<CustomField> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          widget.label,
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: medium,
-          ),
-        ),
-        const SizedBox(height: 12),
+        widget.label != null
+            ? Padding(
+                padding: const EdgeInsets.only(top: 12),
+                child: Text(
+                  widget.label!,
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: medium,
+                  ),
+                ),
+              )
+            : const SizedBox(),
         Container(
-          height: 50,
-          padding: const EdgeInsets.symmetric(horizontal: 16),
+          padding: const EdgeInsets.symmetric(vertical: 12),
           decoration: BoxDecoration(
-            color: subtitleColor,
-            borderRadius: BorderRadius.circular(12),
+            border: Border(
+              bottom: BorderSide(
+                color: subtitleColor,
+                width: 1,
+              ),
+            ),
           ),
           child: Center(
             child: Row(
               children: [
                 Icon(
                   widget.prefixIcon,
-                  color: Colors.white,
+                  color: subtitleColor,
+                  size: 16,
                 ),
                 const SizedBox(width: 16),
                 Expanded(
@@ -64,7 +72,7 @@ class _CustomFieldState extends State<CustomField> {
                     readOnly: widget.isLoading,
                     obscureText: widget.isPassword,
                     controller: widget.controller,
-                    style: const TextStyle(color: Colors.white),
+                    style: body1.copyWith(fontSize: 13, color: subtitleColor),
                     decoration: InputDecoration.collapsed(
                       hintText: widget.hintText,
                     ),

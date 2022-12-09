@@ -82,7 +82,7 @@ class _HomePageState extends State<HomePage> {
               const SizedBox(height: 4),
               Text(
                 "Most visited Museum",
-                style: subTitle1.copyWith(fontSize: 14, color: bodyColor),
+                style: subTitle2.copyWith(color: bodyColor),
               ),
             ],
           ),
