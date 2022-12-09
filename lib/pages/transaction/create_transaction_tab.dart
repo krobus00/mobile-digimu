@@ -3,6 +3,7 @@ import 'package:digium/models/argument_model.dart';
 import 'package:digium/models/museum_model.dart';
 import 'package:digium/providers/transaction_provider.dart';
 import 'package:digium/widgets/custom_field.dart';
+import 'package:digium/widgets/date_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -228,6 +229,13 @@ class _CreateTransactionTabState extends State<CreateTransactionTab> {
                     "Detail Pemesanan",
                     style: header1.copyWith(color: Colors.black),
                   ),
+                  const SizedBox(height: 20),
+                  Text(
+                    "Tanggal Kunjungan",
+                    style: header1,
+                  ),
+                  const SizedBox(height: 8),
+                  DatePickerWidget(),
                   const SizedBox(height: 20),
                   Text(
                     "Pengunjung",
