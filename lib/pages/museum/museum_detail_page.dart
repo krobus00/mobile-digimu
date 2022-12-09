@@ -23,7 +23,6 @@ class _MuseumDetailPageState extends State<MuseumDetailPage>
   static const List<Tab> myTabs = <Tab>[
     Tab(text: 'About'),
     Tab(text: 'Galleries'),
-    // Tab(text: 'Buy Ticket'),
   ];
 
   late TabController _tabController;
@@ -55,7 +54,6 @@ class _MuseumDetailPageState extends State<MuseumDetailPage>
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
             return <Widget>[
               SliverAppBar(
-                // backgroundColor: Colors.white,
                 expandedHeight: 365.0,
                 floating: false,
                 pinned: true,
@@ -92,7 +90,6 @@ class _MuseumDetailPageState extends State<MuseumDetailPage>
             children: [
               AboutTab(museum: museum),
               GalleriesTab(galleries: museum.galleries ?? []),
-              // CreateTransactionTab(museum: museum),
             ],
           ),
         ),
@@ -135,7 +132,6 @@ class _MuseumDetailPageState extends State<MuseumDetailPage>
                     shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                         const RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(6.0)),
-                      // side: BorderSide(color: Colors.red)
                     ))),
                 onPressed: () => _navLocator.navigateAndReplaceTo(
                     routeName: "/transaction/museum",

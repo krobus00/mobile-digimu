@@ -15,92 +15,87 @@ class AboutTab extends StatelessWidget {
   final formatCurrency = NumberFormat.simpleCurrency(locale: 'id_ID');
   @override
   Widget build(BuildContext context) {
-    return Container(
-      // margin: EdgeInsets.symmetric(horizontal: 34),
-      child: ListView(
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 33),
-            child: Text(
-              "About",
-              textAlign: TextAlign.left,
-              style: title3,
-            ),
+    return ListView(
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 33),
+          child: Text(
+            "About",
+            textAlign: TextAlign.left,
+            style: title3,
           ),
-          const SizedBox(height: 12),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 33),
-            child: Text(
-              museum.description,
-              textAlign: TextAlign.justify,
-              style: body1,
-            ),
+        ),
+        const SizedBox(height: 12),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 33),
+          child: Text(
+            museum.description,
+            textAlign: TextAlign.justify,
+            style: body1,
           ),
-          const SizedBox(height: 10),
-          // const Spacer(),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 33),
-            child: Text(
-              "Information",
-              textAlign: TextAlign.left,
-              style: title3,
-            ),
+        ),
+        const SizedBox(height: 10),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 33),
+          child: Text(
+            "Information",
+            textAlign: TextAlign.left,
+            style: title3,
           ),
-          const SizedBox(height: 12),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 33),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Icon(
-                  Icons.pin_drop,
-                  color: primaryColor,
-                ),
-                const SizedBox(width: 20),
-                Flexible(
-                    child: Text(
-                  museum.address,
-                  style: body1,
-                )),
-              ],
-            ),
+        ),
+        const SizedBox(height: 12),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 33),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Icon(
+                Icons.pin_drop,
+                color: primaryColor,
+              ),
+              const SizedBox(width: 20),
+              Flexible(
+                  child: Text(
+                museum.address,
+                style: body1,
+              )),
+            ],
           ),
-          const SizedBox(height: 10),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 33),
-            child: Row(
-              children: [
-                Icon(
-                  Icons.phone_enabled_outlined,
-                  color: primaryColor,
-                ),
-                const SizedBox(width: 20),
-                Flexible(
-                    child: Text(
-                  museum.phone,
-                  style: body1,
-                )),
-              ],
-            ),
+        ),
+        const SizedBox(height: 10),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 33),
+          child: Row(
+            children: [
+              Icon(
+                Icons.phone_enabled_outlined,
+                color: primaryColor,
+              ),
+              const SizedBox(width: 20),
+              Flexible(
+                  child: Text(
+                museum.phone,
+                style: body1,
+              )),
+            ],
           ),
-          const SizedBox(height: 36),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 33),
-            child: Text(
-              "Directions",
-              textAlign: TextAlign.left,
-              style: title3,
-            ),
+        ),
+        const SizedBox(height: 36),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 33),
+          child: Text(
+            "Directions",
+            textAlign: TextAlign.left,
+            style: title3,
           ),
-          const SizedBox(height: 12),
-
-          SizedBox(
-            height: 300,
-            child: CustomMap(lat: museum.latitude, lng: museum.longitude),
-          ),
-        ],
-      ),
+        ),
+        const SizedBox(height: 12),
+        SizedBox(
+          height: 300,
+          child: CustomMap(lat: museum.latitude, lng: museum.longitude),
+        ),
+      ],
     );
   }
 }

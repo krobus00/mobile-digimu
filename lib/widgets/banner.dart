@@ -52,8 +52,6 @@ class _BannerWidgetState extends State<BannerWidget> {
         children: widget.banners.asMap().entries.map((entry) {
           return GestureDetector(
             onTap: () => _controller.animateToPage(entry.key),
-            // onTap: () => print(
-            //     "click ${_current} == ${entry.key} ${entry.key == _current}"),
             child: Container(
               width: 6.0,
               height: 6.0,
