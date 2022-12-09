@@ -39,7 +39,6 @@ class LoadingButton extends StatelessWidget {
             )
           ],
         ),
-        // child: ,
       ),
     );
   }

@@ -16,9 +16,6 @@ class BannerService {
       );
       print("banner response:\n${response.data['data']}");
       List<BannerModel> banners;
-      // banners = List<BannerModel>.from(response.data['data'].map(
-      //   (x) => BannerModel.fromJson(x),
-      // ));
       banners = response.data['data']
           .map<BannerModel>((x) => BannerModel.fromJson(x))
           .toList();

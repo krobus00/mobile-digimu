@@ -70,11 +70,6 @@ class _HomePageState extends State<HomePage> {
 
     Widget popularMuseumTitle() {
       return Container(
-        // margin: EdgeInsets.only(
-        //   top: defaultMargin,
-        //   left: defaultMargin,
-        //   right: defaultMargin,
-        // ),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 33),
           child: Column(
@@ -137,25 +132,18 @@ class _HomePageState extends State<HomePage> {
     }
 
     Widget popularMuseum() {
-      return Container(
-        // margin: EdgeInsets.only(
-        //   top: defaultMargin,
-        //   left: defaultMargin,
-        //   right: defaultMargin,
-        // ),
-        child: SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 33),
-            child: Row(
-              children: museumProvider.topMuseums
-                  .map(
-                    (m) => TopMuseumCard(
-                      museum: m,
-                    ),
-                  )
-                  .toList(),
-            ),
+      return SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 33),
+          child: Row(
+            children: museumProvider.topMuseums
+                .map(
+                  (m) => TopMuseumCard(
+                    museum: m,
+                  ),
+                )
+                .toList(),
           ),
         ),
       );

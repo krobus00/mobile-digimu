@@ -7,8 +7,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class CreateTransactionTab extends StatefulWidget {
-  const CreateTransactionTab({Key? key})
-      : super(key: key);
+  const CreateTransactionTab({Key? key}) : super(key: key);
 
   @override
   State<CreateTransactionTab> createState() => _CreateTransactionTabState();
@@ -19,7 +18,7 @@ class _CreateTransactionTabState extends State<CreateTransactionTab> {
   final List<TextEditingController> _ticketsNameController = [
     TextEditingController(text: ""),
   ];
-  
+
   final formatCurrency = NumberFormat.simpleCurrency(locale: 'id_ID');
 
   @override
@@ -41,76 +40,78 @@ class _CreateTransactionTabState extends State<CreateTransactionTab> {
     Widget _ticketNameInput(
         int index, TextEditingController currentController) {
       return Container(
-            margin: const EdgeInsets.only(top: 10, right: 15, left: 15),
-            color: Colors.white,
-            child: Column(
-              children: [
-                CustomField(
-                  label: "Name $index",
-                  hintText: "Jhon",
-                  isLoading: isLoading,
-                  errorText: null,
-                  controller: currentController,
-                  prefixIcon: Icons.person,
-                  onChanged: (String? val) {},
-                ),
-                Visibility(
-                  visible: index == _ticketsNameController.length,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      TextButton(
-                        style: TextButton.styleFrom(
-                          backgroundColor: Colors.blue,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                        ),
-                        onPressed: () {
-                          setState(() {
-                            _ticketsNameController
-                                .add(TextEditingController(text: ""));
-                          });
-                        },
-                        child: const Icon(
-                          Icons.add,
-                          color: Colors.white,
-                          size: 32,
-                        ),
-                      ),
-                      const SizedBox(width: 5),
-                      Visibility(
-                        visible: _ticketsNameController.length > 1,
-                        child: TextButton(
-                          style: TextButton.styleFrom(
-                            backgroundColor: Colors.red,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                          ),
-                          onPressed: () {
-                            setState(() {
-                              _ticketsNameController
-                                  .removeAt(_ticketsNameController.length - 1);
-                            });
-                          },
-                          child: const Icon(
-                            Icons.delete,
-                            color: Colors.white,
-                            size: 32,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                )
-              ],
+        margin: const EdgeInsets.only(top: 10, right: 15, left: 15),
+        color: Colors.white,
+        child: Column(
+          children: [
+            CustomField(
+              label: "Name $index",
+              hintText: "Jhon",
+              isLoading: isLoading,
+              errorText: null,
+              controller: currentController,
+              prefixIcon: Icons.person,
+              onChanged: (String? val) {},
             ),
-          );
+            Visibility(
+              visible: index == _ticketsNameController.length,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  TextButton(
+                    style: TextButton.styleFrom(
+                      backgroundColor: Colors.blue,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        _ticketsNameController
+                            .add(TextEditingController(text: ""));
+                      });
+                    },
+                    child: const Icon(
+                      Icons.add,
+                      color: Colors.white,
+                      size: 32,
+                    ),
+                  ),
+                  const SizedBox(width: 5),
+                  Visibility(
+                    visible: _ticketsNameController.length > 1,
+                    child: TextButton(
+                      style: TextButton.styleFrom(
+                        backgroundColor: Colors.red,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          _ticketsNameController
+                              .removeAt(_ticketsNameController.length - 1);
+                        });
+                      },
+                      child: const Icon(
+                        Icons.delete,
+                        color: Colors.white,
+                        size: 32,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
+      );
     }
 
     return Scaffold(
-      appBar: AppBar(title: Text(museum.name),),
+      appBar: AppBar(
+        title: Text(museum.name),
+      ),
       bottomSheet: Container(
         height: 83,
         width: MediaQuery.of(context).size.width,
@@ -126,45 +127,42 @@ class _CreateTransactionTabState extends State<CreateTransactionTab> {
                 Text(
                   "${formatCurrency.format(museum.price * _ticketsNameController.length)}",
                   style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18,
-                    color: Color.fromARGB(255, 62, 176, 243)
-                  ),
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                      color: Color.fromARGB(255, 62, 176, 243)),
                 ),
               ],
             ),
-            
-            SizedBox(width: 118,),
+            SizedBox(
+              width: 118,
+            ),
             ElevatedButton(
-              child: Text(
-                "Checkout".toUpperCase(),
-                style: TextStyle(fontSize: 14),
-              ),
-              style: ButtonStyle(
-                minimumSize: MaterialStateProperty.all<Size>(Size(128, 39)),
-                foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
-                backgroundColor: MaterialStateProperty.all<Color>(Color.fromARGB(255, 252, 180, 42)),
-                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                  const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(6.0)),
-                    // side: BorderSide(color: Colors.red)
-                  )
-                )
-              ),
-              onPressed: () async {
-                      List<String> names = [];
-                      for (var item in _ticketsNameController) {
-                        names.add(item.text);
-                      }
-    
-                      bool isSuccess =
-                          await _transactionProvider.createTransaction(
-                              museumId: museum.id, names: names);
-                      if (isSuccess) {
-                        Navigator.pop(context);
-                      }
-                    }
-            )
+                child: Text(
+                  "Checkout".toUpperCase(),
+                  style: TextStyle(fontSize: 14),
+                ),
+                style: ButtonStyle(
+                    minimumSize: MaterialStateProperty.all<Size>(Size(128, 39)),
+                    foregroundColor:
+                        MaterialStateProperty.all<Color>(Colors.white),
+                    backgroundColor: MaterialStateProperty.all<Color>(
+                        Color.fromARGB(255, 252, 180, 42)),
+                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                        const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(6.0)),
+                    ))),
+                onPressed: () async {
+                  List<String> names = [];
+                  for (var item in _ticketsNameController) {
+                    names.add(item.text);
+                  }
+
+                  bool isSuccess = await _transactionProvider.createTransaction(
+                      museumId: museum.id, names: names);
+                  if (isSuccess) {
+                    Navigator.pop(context);
+                  }
+                })
           ],
         ),
       ),
@@ -177,7 +175,6 @@ class _CreateTransactionTabState extends State<CreateTransactionTab> {
                 .map((e) => _ticketNameInput(e.key + 1, e.value))
                 .toList(),
             const SizedBox(height: 10),
-           
           ],
         ),
       ),

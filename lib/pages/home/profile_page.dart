@@ -56,7 +56,7 @@ class ProfilePage extends StatelessWidget {
           margin: const EdgeInsets.symmetric(horizontal: 15),
           child: ElevatedButton(
             style: ElevatedButton.styleFrom(
-              primary: Colors.black,
+              backgroundColor: Colors.black,
               minimumSize: const Size.fromHeight(50), // NEW
             ),
             onPressed: () async {
