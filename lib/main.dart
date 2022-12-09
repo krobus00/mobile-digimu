@@ -2,6 +2,7 @@ import 'package:digium/pages/transaction/create_transaction_tab.dart';
 import 'package:digium/pages/transaction/item_page.dart';
 import 'package:digium/pages/transaction/payment_page.dart';
 import 'package:digium/pages/transaction/ticket_page.dart';
+import 'package:digium/providers/banner_provider.dart';
 import 'package:digium/providers/transaction_provider.dart';
 import 'package:digium/utils/logger.dart';
 import 'package:digium/pages/auth/login_page.dart';
@@ -55,6 +56,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (context) => TransactionProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => BannerProvider(),
         ),
       ],
       child: MaterialApp(
