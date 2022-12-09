@@ -80,6 +80,12 @@ TextStyle cardTitle1 =
 TextStyle subTitle1 = GoogleFonts.openSans(
     fontSize: 18, fontWeight: regular, color: subtitleColor);
 
+TextStyle subTitle2 =
+    GoogleFonts.openSans(fontSize: 14, fontWeight: regular, color: bodyColor);
+
+TextStyle header1 = GoogleFonts.openSans(
+    fontSize: 13, fontWeight: semiBold, color: subtitleColor);
+
 TextStyle button2 = GoogleFonts.openSans(
     fontSize: 14, fontWeight: regular, color: primaryColor);
 
