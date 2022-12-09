@@ -1,3 +1,4 @@
+import 'package:digium/providers/banner_provider.dart';
 import 'package:digium/providers/menu_provider.dart';
 import 'package:digium/providers/museum_provider.dart';
 import 'package:digium/constants/theme.dart';
@@ -55,12 +56,17 @@ class _HomePageState extends State<HomePage> {
     await museumProvider.getMuseums(top: true, paginate: 10, firstFetch: true);
     await museumProvider.getMuseums(
         random: true, paginate: 10, firstFetch: true);
+
+    BannerProvider bannerProvider =
+        Provider.of<BannerProvider>(context, listen: false);
+    await bannerProvider.getBanners();
   }
 
   @override
   Widget build(BuildContext context) {
     MuseumProvider museumProvider = Provider.of<MuseumProvider>(context);
     MenuProvider menuProvider = Provider.of<MenuProvider>(context);
+    BannerProvider bannerProvider = Provider.of<BannerProvider>(context);
 
     Widget popularMuseumTitle() {
       return Container(
@@ -195,7 +201,9 @@ class _HomePageState extends State<HomePage> {
           SliverList(
             delegate: SliverChildListDelegate(
               [
-                BannerWidget(),
+                BannerWidget(
+                  banners: bannerProvider.banners,
+                ),
                 popularMuseumTitle(),
                 const SizedBox(height: 23),
                 popularMuseum(),

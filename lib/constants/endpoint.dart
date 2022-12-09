@@ -21,3 +21,5 @@ const musuemListEndpoint = "museum";
 
 const transactionListEndpoint = "transaction";
 const transactionReceiptEndpoint = "transaction_receipt";
+
+const bannerListEndpoint = "banner";
